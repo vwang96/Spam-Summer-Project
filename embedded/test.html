@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+<script type="text/javascript" src="code.js"></script>
+
+<p> This is test page for embedded Google Maps</p>
+
+ Search place here:
+<form action="javascript:update()">
+<input type="text" id="sBar">
+<input type="submit" value="Search!">
+</form>
+
+<table style="width:90%">
+  <tr>
+    <td> Location Highlight </td>
+    <td> Location Search </td>
+    <td> Javascript Map </td>
+  </tr>
+  <tr>
+    <td>
+      <div class="google-maps">
+      <iframe id="place" width="640" height="400" frameborder="0" 
+	      style="border:0"src=""></iframe>
+      </div>
+    </td>
+    <td>
+      <div class="google-maps">
+      <iframe id="search" width="640" height="400" frameborder="0" 
+	      style="border:0" src=""></iframe>
+      </div>
+    </td>
+  </tr>
+  
+</table>
+    
+</div>
+</html>
+
+
+
+<style>
+    .google-maps {
+        position: relative;
+        padding-bottom: 75%; // This is the aspect ratio
+        height: 0;
+        overflow: hidden;
+    }
+    .google-maps iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+    }
+</style>
+
