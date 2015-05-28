@@ -1,0 +1,11 @@
+html
+  head
+    title!= title
+  body
+    h1!= message
+    div.registerbox
+    form(name='register', action='/register', method='post')
+        input(type='textbox' name='user' placeholder='user')
+        input(type='textbox' name='pass' placeholder='pass')
+        input(type='submit' value='register')
+    a(href='/login') To Login Page
