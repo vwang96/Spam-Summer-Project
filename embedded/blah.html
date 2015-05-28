@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      #map-canvas{
+      height:400px
+      }
+ 
+    </style> 
+
+    <title>Places search box</title>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+    <script type="text/javascript" src="gcode.js"></script>
+    <style>
+      #target {
+        width: 345px;
+      }
+    </style>
+  </head>
+    <div>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map-canvas"></div>
+    <input id="test" placeholder="Hmmm">
+    </div>
+</html>
