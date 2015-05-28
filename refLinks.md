@@ -12,3 +12,4 @@ Links used for Geo
 ##JS GMap  
  * [basic set up & tutorial](https://developers.google.com/maps/documentation/javascript/tutorial)
  * [JS map with search bar](https://developers.google.com/maps/documentation/javascript/examples/places-searchbox)
+`* [Map latlng variable](https://developers.google.com/maps/documentation/javascript/examples/map-latlng-literal)
