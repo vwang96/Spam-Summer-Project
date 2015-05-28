@@ -1,8 +1,12 @@
 <!DOCTYPE HTML>
 <html>
+<!-- 
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgg1ndakXo3FYqjvzqRC_6pOntywp3RFo"></script>
+-->
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
 <script type="text/javascript" src="code.js"></script>
 
-<p> This is test page for embedded Google Maps</p>
+<p> This is test page for Google Maps</p>
 
  Search place here:
 <form action="javascript:update()">
@@ -29,11 +33,15 @@
 	      style="border:0" src=""></iframe>
       </div>
     </td>
+    <td>
+
+	<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+	<div id="map-canvas">      </div>
+    </td>
   </tr>
   
 </table>
-    
-</div>
+
 </html>
 
 
@@ -41,7 +49,7 @@
 <style>
     .google-maps {
         position: relative;
-        padding-bottom: 75%; // This is the aspect ratio
+        padding-bottom: 100%; // This is the aspect ratio
         height: 0;
         overflow: hidden;
     }
@@ -52,5 +60,57 @@
         width: 100% !important;
         height: 100% !important;
     }
+     
+    #map_container{
+    position: relative;
+    }
+    #map-canvas{
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 100%;
+    padding-top: 30px;
+    position: relative;
+    }
+    .controls {
+        margin-top: 16px;
+        border: 1px solid transparent;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        height: 32px;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      .pac-container {
+        font-family: Roboto;
+      }
+
+      #type-selector {
+        color: #fff;
+        background-color: #4d90fe;
+        padding: 5px 11px 0px 11px;
+      }
+
+      #type-selector label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
 </style>
 
