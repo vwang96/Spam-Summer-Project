@@ -1,4 +1,4 @@
-var mongo = require('mongodb').MongoClient;
+//var mongo = require('mongodb').MongoClient;
 var mysql = require('mysql');
 
 exports.authenicate = function(user,pass){
