@@ -2,8 +2,11 @@
 // feature. People can enter geographical searches. The search box will return a
 // pick list containing a mix of places and predicted search terms.
 
+var EVENT_LOCATION = "";
+
 function initialize() {
     var markers = [];
+    var gCoder = new google.maps.Geocoder();
     var map = new google.maps.Map(document.getElementById('map-canvas'),
 				 {mapTypeId:google.maps.MapTypeId.ROADMAP});
     if(navigator.geolocation){
@@ -64,11 +67,20 @@ function initialize() {
 	    });
 	    google.maps.event.addListener(marker, 'click', function() {
 		var eLocation = document.getElementById("eventLoc");
+		var latlng = new google.maps.LatLng(marker.getPosition());
+		console.log(marker.getPosition());
 		map.setZoom(17);
 		map.setCenter(marker.getPosition());
-		eLocation.innerHTML = eLocation.innerHTML + marker.title;
+		gCoder.geocode({'latLng': latlng}, function(results, status) {
+		    if (status == google.maps.GeocoderStatus.OK) {
+			if(eLocation.innerHTML == "Event Location: ")
+			    eLocation.innerHTML = eLocation.innerHTML + 
+			    results[0].formatted_address;
+		    }
+		});
 		for(var m = 0;m<markers.length;m++)
-		    markers[m].setMap(null);
+		    if(markers[m] != marker)
+			markers[m].setMap(null);
 	    });
 	    markers.push(marker);
 	    
