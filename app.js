@@ -18,9 +18,9 @@ var sess;
 app.get('/',function(req,res){
     sess = req.session
     if(sess.user)
-	res.render('index',{title: 'Hey',message: 'Hello World!', greeting: 'You are logged in as ', user: sess.user});
+	res.render('index',{greeting: 'You are logged in as ', user: sess.user});
     else
-	res.render('index',{title: 'Hey',message: 'Hello World!', greeting: 'Welcome guest!'});
+	res.render('index',{greeting: 'Welcome guest!'});
 	
 });
 
@@ -41,7 +41,6 @@ app.route('/login')
 		res.redirect('/');
 	    }
 	    else{
-		//TODO: show error message on login page
 		res.render('login', {error:"Invalid user/pass combo"});
 		console.log("Invalid user/pass combo");
 	    }
@@ -55,13 +54,14 @@ app.route('/register')
 	if(sess.user)
 	    res.redirect('/');
 	else
-	    res.render('register',{title: 'Register',message: 'Register here'});
+	    res.render('register');
     })
     .post(function(req,res,callback){
 	login.existsuser(req.body.user,req.body.pass,function(userExists){
-	    if(userExists)
-		//TODO: Show error message on register page
+	    if(userExists){
+		res.render('register',{error:"User already exists"});
 		console.log("User already exists");
+	    }
 	    else{
 		login.adduser(req.body.user,req.body.pass,function(added){
 		    sess = req.session;

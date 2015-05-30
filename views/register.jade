@@ -1,8 +1,9 @@
 html
   head
-    title!= title
+    title Register
   body
-    h1!= message
+    h1 Please register an account!
+    h2 #{error}
     div.registerbox
     form(name='register', action='/register', method='post')
         input(type='textbox' name='user' placeholder='user')
