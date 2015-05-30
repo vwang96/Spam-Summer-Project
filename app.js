@@ -31,7 +31,7 @@ app.route('/login')
 	if(sess.user)
 	    res.redirect('/');
 	else
-	    res.render('login',{title: 'Login',message: 'Enter your info to login'});
+	    res.render('login');
     })
     .post(function(req,res){
 	sess = req.session;
@@ -42,6 +42,7 @@ app.route('/login')
 	    }
 	    else{
 		//TODO: show error message on login page
+		res.render('login', {error:"Invalid user/pass combo"});
 		console.log("Invalid user/pass combo");
 	    }
 	})
