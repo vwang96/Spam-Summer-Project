@@ -1,18 +1,8 @@
-var mongo = require('mongodb').MongoClient;
 var mysql = require('mysql');
 
-exports.authenicate = function(user,pass){
-    /*Mongo*/
-    /*
-    var url = 'mongodb://localhost:27017/users'
-    var db = mongo.connect(url,function(err,db){
-
-    });
-    MongoClient.connect();
-    
-*/   
+exports.authenicate = function(user,pass){  
     /*MySQL*/
-    
+    var auth = false;
     var mysqlconnection = mysql.createConnection({
 	host    : 'localhost',
 	user    : 'alvin',
@@ -20,17 +10,46 @@ exports.authenicate = function(user,pass){
 	database: 'users'
     });
     mysqlconnection.connect();
-    var query = 'SELECT * from login where login.name='+user+' and login.password=' + pass;
+    var query = 'SELECT * from login where name = "'+user+'" and password = "'+pass+'"';
 
     mysqlconnection.query(query,function(err,rows,fields){  
-	console.log(err);
-	console.log(rows);
-	console.log(fields);
+	auth = (rows.length == 1);
+	mysqlconnection.end();
+	return auth;
     });
-    
 };
-function existsuser(user,pass){
-    /*Mongo*/
-    
+
+exports.existsuser = function(user,pass){    
     /*MySQL*/
+    var auth = false;
+    var mysqlconnection = mysql.createConnection({
+	host    : 'localhost',
+	user    : 'alvin',
+	password: 'spam',
+	database: 'users'
+    });
+    mysqlconnection.connect();
+    var query = 'SELECT * from login where name = "'+user+'"';
+
+    mysqlconnection.query(query,function(err,rows,fields){  
+	auth = r(ows.length != 0);
+	mysqlconnection.end();
+	console.log(auth);
+	return auth;
+    });
 };
+exports.adduser = function(user,pass){
+    var mysqlconnection = mysql.createConnection({
+	host    : 'localhost',
+	user    : 'alvin',
+	password: 'spam',
+	database: 'users'
+    });
+    mysqlconnection.connect();
+    var query = 'INSERT INTO login (name,password) VALUES ("'+user+'","'+pass+'")';
+    
+    mysqlconnection.query(query,function(err,rows,fields){
+	mysqlconnection.end();
+	return true;
+    });
+}

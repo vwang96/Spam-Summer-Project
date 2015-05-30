@@ -18,8 +18,10 @@ app.route('/login')
 	res.render('login',{title: 'Login',message: 'Enter your info to login'});
     })
     .post(function(req,res){
-	login.authenicate(req.body.user,req.body.pass);
-	res.send("Logging in");
+	if(login.authenicate(req.body.user,req.body.pass))
+	    res.send("Logging in");
+	else
+	    res.send("Invalid user/pass combo");
     });
 
 //Register page
@@ -28,7 +30,12 @@ app.route('/register')
 	res.render('register',{title: 'Register',message: 'Register here'});
     })
     .post(function(req,res){
-	res.send("Registering");
+	if(login.existsuser(req.body.user,req.body.pass))
+	    res.send("User already exists");
+	else if (login.adduser(req.body.user,req.body.pass))
+	    res.send("Register successful");
+	else
+	    res.send("Uhh something broke");
     });
 
 var server = app.listen(3000,function(){
