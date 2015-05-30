@@ -36,7 +36,7 @@ function mapSetup(){
 		new google.maps.LatLng(lat+0.025,lng+0.025));
 	    map.fitBounds(bounds);
 	    map.setCenter({'lat':lat,'lng':lng});
-	    map.setZoom(13);
+	    map.setZoom(17);
 	});
     }
     else{
@@ -48,7 +48,7 @@ function mapSetup(){
   // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
       document.getElementById('pac-input'));
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
   var searchBox = new google.maps.places.SearchBox(
     /** @type {HTMLInputElement} */(input));
