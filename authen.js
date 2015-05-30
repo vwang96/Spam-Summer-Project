@@ -1,14 +1,14 @@
 var mysql = require('mysql');
+var mysqlconnection = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'alvin',
+    password : 'spam',
+    database : 'users'
+});
 
 exports.authenicate = function(user,pass){  
     /*MySQL*/
     var auth = false;
-    var mysqlconnection = mysql.createConnection({
-	host    : 'localhost',
-	user    : 'alvin',
-	password: 'spam',
-	database: 'users'
-    });
     mysqlconnection.connect();
     var query = 'SELECT * from login where name = "'+user+'" and password = "'+pass+'"';
 
@@ -22,12 +22,6 @@ exports.authenicate = function(user,pass){
 exports.existsuser = function(user,pass){    
     /*MySQL*/
     var auth = false;
-    var mysqlconnection = mysql.createConnection({
-	host    : 'localhost',
-	user    : 'alvin',
-	password: 'spam',
-	database: 'users'
-    });
     mysqlconnection.connect();
     var query = 'SELECT * from login where name = "'+user+'"';
 
@@ -39,12 +33,6 @@ exports.existsuser = function(user,pass){
     });
 };
 exports.adduser = function(user,pass){
-    var mysqlconnection = mysql.createConnection({
-	host    : 'localhost',
-	user    : 'alvin',
-	password: 'spam',
-	database: 'users'
-    });
     mysqlconnection.connect();
     var query = 'INSERT INTO login (name,password) VALUES ("'+user+'","'+pass+'")';
     
