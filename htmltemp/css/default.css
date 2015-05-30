@@ -9,6 +9,8 @@ body {
 
 .sidebar {
   background-color: #e7e7e7;
+  margin-bottom: 20px;
+  text-align:center;
 }
 
 .main {
