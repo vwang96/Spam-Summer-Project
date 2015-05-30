@@ -1,6 +1,8 @@
 html
   head
-    title!= title
+    title #{title}
   body
-    h1!= message
-    a(href='/login') Login
+    h1 #{message}
+    p #{greeting} #{user}
+    a(href='/login') Login 
+    a(href='/logout') Logout
