@@ -32,7 +32,7 @@ exports.existsuser = function(user,pass){
     var query = 'SELECT * from login where name = "'+user+'"';
 
     mysqlconnection.query(query,function(err,rows,fields){  
-	auth = r(ows.length != 0);
+	auth = (rows.length != 0);
 	mysqlconnection.end();
 	console.log(auth);
 	return auth;
