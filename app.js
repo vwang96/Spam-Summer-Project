@@ -35,7 +35,9 @@ app.route('/login')
     })
     .post(function(req,res){
 	sess = req.session;
+	//Authenicate the user
 	login.authenicate(req.body.user,req.body.pass,function(auth){
+	    //If the user is found, add them to the session and redirect to homepage
 	    if(auth){
 		sess.user = req.body.user;
 		res.redirect('/');
@@ -57,11 +59,14 @@ app.route('/register')
 	    res.render('register',{title: 'Register',message: 'Register here'});
     })
     .post(function(req,res,callback){
+	//Check if the username is taken
 	login.existsuser(req.body.user,req.body.pass,function(userExists){
 	    if(userExists)
 		//TODO: Show error message on register page
 		console.log("User already exists");
 	    else{
+		//If the user does not exist, add them to the database,
+		//log them in, and redirect to homepage
 		login.adduser(req.body.user,req.body.pass,function(added){
 		    sess = req.session;
 		    sess.user = req.body.user;
