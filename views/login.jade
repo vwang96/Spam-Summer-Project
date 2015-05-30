@@ -1,8 +1,9 @@
 html
   head
-    title!= title
+    title #{title}
   body
-    h1!= message
+    h1 Enter your info to login
+    h2 #{error}
     div.loginbox
     form(name='login', action='/login', method='post')
         input(type='textbox' name='user' placeholder='user' id='user')
