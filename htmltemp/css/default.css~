@@ -1,0 +1,25 @@
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.sidebar {
+  background-color: #e7e7e7;
+}
+
+.main {
+  background-color: #e7e7e7;
+}
+
+.rightbar {
+  background-color: #e7e7e7;
+}
+
+img {
+  max-height: 95%;
+  max-width: 100%;
+}
