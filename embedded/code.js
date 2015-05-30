@@ -23,17 +23,28 @@ function update(){
 }
 
 function mapSetup(){
-    console.log("in mapSetup");
-  var markers = [];
-  var map = new google.maps.Map(document.getElementById('map-canvas'), {
-    mapTypeId: google.maps.MapTypeId.ROADMAP
-  });
-
-  var defaultBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-33.8902, 151.1759),
-      new google.maps.LatLng(-33.8474, 151.2631));
-  map.fitBounds(defaultBounds);
-
+    var markers = [];
+    var map = new google.maps.Map(document.getElementById('map-canvas'), {
+	mapTypeId: google.maps.MapTypeId.ROADMAP
+    }); 
+    if(navigator.geolocation){
+	navigator.geolocation.getCurrentPosition(function(pos){
+	    var lat = pos.coords.latitude;
+	    var lng = pos.coords.longitude;
+	    var bounds = new google.maps.LatLngBounds(
+		new google.maps.LatLng(lat-0.025,lng-0.025),
+		new google.maps.LatLng(lat+0.025,lng+0.025));
+	    map.fitBounds(bounds);
+	    map.setCenter({'lat':lat,'lng':lng});
+	    map.setZoom(13);
+	});
+    }
+    else{
+	var defaultBounds = new google.maps.LatLngBounds(
+	    new google.maps.LatLng(-33.8902, 151.1759),
+	    new google.maps.LatLng(-33.8474, 151.2631));
+	map.fitBounds(defaultBounds);
+    } 
   // Create the search box and link it to the UI element.
   var input = /** @type {HTMLInputElement} */(
       document.getElementById('pac-input'));
@@ -47,10 +58,11 @@ function mapSetup(){
   // pick list. Retrieve the matching places for that item.
   google.maps.event.addListener(searchBox, 'places_changed', function() {
     var places = searchBox.getPlaces();
-
+      console.log(places);
     if (places.length == 0) {
       return;
     }
+      console.log(places[0].formatted_address);
     for (var i = 0, marker; marker = markers[i]; i++) {
       marker.setMap(null);
     }
@@ -90,7 +102,6 @@ function mapSetup(){
     var bounds = map.getBounds();
     searchBox.setBounds(bounds);
   });
-
 }
 
 window.onload = setup;
