@@ -28,20 +28,23 @@ app.get('/',function(req,res){
 app.route('/login')
     .get(function(req,res){
 	sess = req.session;
-	if(sess.user){
-		res.redirect('/');
-	    }
-	else{
+	if(sess.user)
+	    res.redirect('/');
+	else
 	    res.render('login',{title: 'Login',message: 'Enter your info to login'});
-	    }
     })
     .post(function(req,res){
 	sess = req.session;
-	if(login.authenicate(req.body.user,req.body.pass))
-	    sess.user = req.body.user;
-	else
-	    console.log("Invalid user/pass combo");
-	res.redirect('/');
+	login.authenicate(req.body.user,req.body.pass,function(auth){
+	    if(auth){
+		sess.user = req.body.user;
+		res.redirect('/');
+	    }
+	    else{
+		//TODO: show error message on login page
+		console.log("Invalid user/pass combo");
+	    }
+	})
     });
 
 //Register page
@@ -53,19 +56,21 @@ app.route('/register')
 	else
 	    res.render('register',{title: 'Register',message: 'Register here'});
     })
-    .post(function(req,res){
-	if(login.existsuser(req.body.user,req.body.pass))
-	    console.log("User already exists");
-	else if (login.adduser(req.body.user,req.body.pass)){
-	    console.log("Register Successful");
-	    sess = req.session;
-	    sess.user = req.body.user;
-	    res.redirect('/');
-	}
-	else{
-	    console.log("uhhhh something broke in register");
-	}
-    });
+    .post(function(req,res,callback){
+	login.existsuser(req.body.user,req.body.pass,function(userExists){
+	    if(userExists)
+		//TODO: Show error message on register page
+		console.log("User already exists");
+	    else{
+		login.adduser(req.body.user,req.body.pass,function(added){
+		    sess = req.session;
+		    sess.user = req.body.user;
+		    res.redirect('/');	
+		});
+	    }
+	});
+    })
+	
 
 app.route('/logout')
     .get(function(req,res){
