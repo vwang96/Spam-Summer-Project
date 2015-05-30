@@ -13,3 +13,5 @@ Links used for Geo
  * [basic set up & tutorial](https://developers.google.com/maps/documentation/javascript/tutorial)
  * [JS map with search bar](https://developers.google.com/maps/documentation/javascript/examples/places-searchbox)
  * [Autocomplete](https://developers.google.com/maps/documentation/javascript/places-autocomplete)
+ * [Map latlng variable](https://developers.google.com/maps/documentation/javascript/examples/map-latlng-literal)
+
