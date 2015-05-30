@@ -43,6 +43,7 @@ app.route('/login')
 		res.redirect('/');
 	    }
 	    else{
+		//Reloads the page with error messages
 		res.render('login', {error:"Invalid user/pass combo"});
 		console.log("Invalid user/pass combo");
 	    }
@@ -62,6 +63,7 @@ app.route('/register')
 	//Check if the username is taken
 	login.existsuser(req.body.user,req.body.pass,function(userExists){
 	    if(userExists){
+		//Reloads the page with error messages
 		res.render('register',{error:"User already exists"});
 		console.log("User already exists");
 	    }
