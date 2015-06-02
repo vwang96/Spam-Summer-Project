@@ -1,5 +1,5 @@
-CREATE USER 'alvin'@'localhost' WITH IDENTIFIER 'spam';
+CREATE USER 'alvin'@'localhost' IDENTIFIED BY 'spam';
 GRANT ALL PRIVILEGES ON * . * TO 'alvin'@'localhost';
 CREATE DATABASE users;
-USER users;
+USE users;
 CREATE TABLE logins (name VARCHAR(20), password VARCHAR(20));
