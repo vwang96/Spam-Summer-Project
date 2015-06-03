@@ -6,11 +6,11 @@
     <title>Places search box</title>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
     <script type="text/javascript" src="gcode.js"></script>
-    <style>
+    <!--  <style>
       #target {
         width: 345px;
       }
-    </style>
+    </style> -->
   </head>
     <div>
       <input id="pac-input" class="controls" type="text" placeholder="Search Box">
@@ -21,12 +21,16 @@
 </html>
 
 <style>
-      #map-canvas{
-      height:768px;
-      width:1024px;
-      } 
-      
-    .controls {
+
+#map-canvas{
+	//height:768px;
+	//width:1024px;
+	width:800px;
+	height:400px;
+} 
+
+
+.controls {
         margin-top: 16px;
         border: 1px solid transparent;
         border-radius: 2px 0 0 2px;
