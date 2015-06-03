@@ -3,17 +3,19 @@
 // pick list containing a mix of places and predicted search terms.
 
 var EVENT_LOCATION = "";
+var D_BOUNDS="";
 
 function initialize() {
     var markers = [];
     var map = new google.maps.Map(document.getElementById('map-canvas'),
-				 {mapTypeId:google.maps.MapTypeId.ROADMAP});
+				  {mapTypeId:google.maps.MapTypeId.ROADMAP});
     if(navigator.geolocation){
 	navigator.geolocation.getCurrentPosition(function(position){
 	    var lat = position.coords.latitude;
 	    var lng = position.coords.longitude;
 	    map.setCenter({'lat':lat,'lng':lng});
 	    map.setZoom(17);
+	    D_BOUNDS = map.getBounds();
 	});
     }
     else{
@@ -21,6 +23,7 @@ function initialize() {
 	    new google.maps.LatLng(-33.8902, 151.1759),
 	    new google.maps.LatLng(-33.8474, 151.2631));
 	map.fitBounds(defaultBounds);
+	D_BOUNDS = map.getBounds();
     }
     
     // Create the search box and link it to the UI element.
@@ -40,9 +43,8 @@ function initialize() {
 	if (places.length == 0) {
 	    return;
 	}
-	for (var i = 0, marker; marker = markers[i]; i++) {
-	    marker.setMap(null);
-	}
+	for (var i = 0, marker; marker = markers[i]; i++) 
+	    marker.setMap(null);   
 	
 	// For each place, get the icon, place name, and location.
 	markers = [];
@@ -77,17 +79,15 @@ function initialize() {
     // Bias the SearchBox results towards places that are within the bounds of the
     // current map's viewport.
     google.maps.event.addListener(map, 'bounds_changed', function() {
-	var bounds = map.getBounds();
-	searchBox.setBounds(bounds);
+	//var bounds = map.getBounds();
+	searchBox.setBounds(D_BOUNDS);
     });
     
 }
 
 function assignClickEvent(marker,markers,map){
     var gCoder = new google.maps.Geocoder();
-    console.log([marker.title,marker.getPosition().A,marker.getPosition().F]);
     google.maps.event.addListener(marker, 'click', function() {
-	console.log([marker.title,marker.getPosition().A,marker.getPosition().F]);
 	var eLocation = document.getElementById("eventLoc");
 	var latlng = new google.maps.LatLng(marker.getPosition().A,
 					    marker.getPosition().F);
@@ -95,15 +95,49 @@ function assignClickEvent(marker,markers,map){
 	map.setCenter(marker.getPosition());
 	gCoder.geocode({'latLng': latlng}, function(results, status) {
 		    if (status == google.maps.GeocoderStatus.OK) {
-			if(eLocation.innerHTML == "Event Location: ")
-			    eLocation.innerHTML = eLocation.innerHTML + 
-			    results[0].formatted_address;
+			eLocation.innerHTML = marker.title + " "+ 
+			    results[0].formatted_address;			
+			createEventObj(results[0].formatted_address,
+				      marker.title,map,markers);
 		    }
 	});
-	for(var m = 0;m<markers.length;m++)
+	for(var m = 0;m<markers.length;m++){
 	    if(markers[m] != marker)
 		markers[m].setMap(null);
+	    markers.splice(m,1);
+	}
     });
 }
+
+function createEventObj(addr,name,map,markers){
+    var tb = document.getElementById("allLocs");
+    var r = tb.insertRow(tb.rows.length);
+    var c1 = r.insertCell(0);
+    var c2 = r.insertCell(1);
+    c1.innerHTML = tb.rows.length -1;
+    c2.innerHTML = name+" "+addr;
+    r.addEventListener("click",function(){
+	var gCoder = new google.maps.Geocoder();
+	gCoder.geocode({"address":addr},function(results,status){
+	    if(status == google.maps.GeocoderStatus.OK){
+		map.setCenter(results[0].geometry.location);
+		var marker = new google.maps.Marker({
+		    map: map,
+		    title:name,
+		    position: results[0].geometry.location
+		});
+		markers.push(marker);
+		for(var m =0;m<markers.length;m++){
+		    if(markers[m] != marker){
+			markers[m].setMap(null);
+			markers.splice(m,1);
+		    }
+		    console.log(markers[m].title);
+		}
+	    }
+	});
+    });
+}
+		      
 
 google.maps.event.addDomListener(window, 'load',initialize);
