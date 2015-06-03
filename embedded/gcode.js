@@ -6,7 +6,6 @@ var EVENT_LOCATION = "";
 
 function initialize() {
     var markers = [];
-    var gCoder = new google.maps.Geocoder();
     var map = new google.maps.Map(document.getElementById('map-canvas'),
 				 {mapTypeId:google.maps.MapTypeId.ROADMAP});
     if(navigator.geolocation){
@@ -18,7 +17,6 @@ function initialize() {
 	});
     }
     else{
-	console.log("in this");
 	var defaultBounds = new google.maps.LatLngBounds(
 	    new google.maps.LatLng(-33.8902, 151.1759),
 	    new google.maps.LatLng(-33.8474, 151.2631));
@@ -65,23 +63,8 @@ function initialize() {
 		title: place.name,
 		position: place.geometry.location
 	    });
-	    google.maps.event.addListener(marker, 'click', function() {
-		var eLocation = document.getElementById("eventLoc");
-		var latlng = new google.maps.LatLng(marker.getPosition());
-		console.log(marker.getPosition());
-		map.setZoom(17);
-		map.setCenter(marker.getPosition());
-		gCoder.geocode({'latLng': latlng}, function(results, status) {
-		    if (status == google.maps.GeocoderStatus.OK) {
-			if(eLocation.innerHTML == "Event Location: ")
-			    eLocation.innerHTML = eLocation.innerHTML + 
-			    results[0].formatted_address;
-		    }
-		});
-		for(var m = 0;m<markers.length;m++)
-		    if(markers[m] != marker)
-			markers[m].setMap(null);
-	    });
+
+	    assignClickEvent(marker,markers,map);
 	    markers.push(marker);
 	    
 	    bounds.extend(place.geometry.location);
@@ -100,5 +83,27 @@ function initialize() {
     
 }
 
+function assignClickEvent(marker,markers,map){
+    var gCoder = new google.maps.Geocoder();
+    console.log([marker.title,marker.getPosition().A,marker.getPosition().F]);
+    google.maps.event.addListener(marker, 'click', function() {
+	console.log([marker.title,marker.getPosition().A,marker.getPosition().F]);
+	var eLocation = document.getElementById("eventLoc");
+	var latlng = new google.maps.LatLng(marker.getPosition().A,
+					    marker.getPosition().F);
+	map.setZoom(17);
+	map.setCenter(marker.getPosition());
+	gCoder.geocode({'latLng': latlng}, function(results, status) {
+		    if (status == google.maps.GeocoderStatus.OK) {
+			if(eLocation.innerHTML == "Event Location: ")
+			    eLocation.innerHTML = eLocation.innerHTML + 
+			    results[0].formatted_address;
+		    }
+	});
+	for(var m = 0;m<markers.length;m++)
+	    if(markers[m] != marker)
+		markers[m].setMap(null);
+    });
+}
 
 google.maps.event.addDomListener(window, 'load',initialize);
