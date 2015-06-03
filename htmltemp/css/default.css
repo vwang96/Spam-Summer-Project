@@ -7,6 +7,10 @@ body {
   margin-bottom: 30px;
 }
 
+.navbar-brand {
+  margin: -35px 0 0 0;
+}
+
 .navbar-right {
 	width: 72px;
 }
