@@ -7,11 +7,15 @@ body {
   margin-bottom: 30px;
 }
 
+.navbar-right {
+	width: 72px;
+}
+
 .sidebar {
   background-color: #454545;
   color: #ffffff;
   margin-bottom: 20px;
-  text-align:center;
+  text-align: center;
   padding: 10px;
 }
 
@@ -25,8 +29,10 @@ body {
 .rightbar {
   background-color: #454545;
   color: #ffffff;
+  text-align: center;
   padding: 10px;
   margin-bottom: 30px;
+	max-height: 86vh;
 }
 
 #map-canvas {
