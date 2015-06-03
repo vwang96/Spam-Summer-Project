@@ -1,0 +1,12 @@
+html
+  head
+    title Register
+  body
+    h1 Please register an account!
+    h2 #{error}
+    div.registerbox
+    form(name='register', action='/register', method='post')
+        input(type='textbox' name='user' placeholder='user')
+        input(type='textbox' name='pass' placeholder='pass')
+        input(type='submit' value='register')
+    a(href='/login') To Login Page

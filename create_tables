@@ -1,0 +1,5 @@
+CREATE USER 'alvin'@'localhost' IDENTIFIED BY 'spam';
+GRANT ALL PRIVILEGES ON * . * TO 'alvin'@'localhost';
+CREATE DATABASE users;
+USE users;
+CREATE TABLE login (name VARCHAR(20), password VARCHAR(20));
