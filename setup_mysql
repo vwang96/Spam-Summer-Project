@@ -1,0 +1,3 @@
+CREATE USER 'alvin'@'localhost' IDENTIFIED BY 'spam';
+GRANT ALL PRIVILEGES ON * . * TO 'alvin'@'localhost';
+CREATE DATABASE eventping;

@@ -1,5 +1,30 @@
-CREATE USER 'alvin'@'localhost' IDENTIFIED BY 'spam';
-GRANT ALL PRIVILEGES ON * . * TO 'alvin'@'localhost';
-CREATE DATABASE users;
-USE users;
-CREATE TABLE login (name VARCHAR(20), password VARCHAR(20));
+USE eventping;
+CREATE TABLE users (id MEDIUMINT NOT NULL AUTO_INCREMENT,
+       username VARCHAR(20) NOT NULL,
+       password VARCHAR(20) NOT NULL,
+       email VARCHAR(30) NOT NULL,
+       name VARCHAR(30) NOT NULL,
+       PRIMARY KEY (id)
+);
+CREATE TABLE events (
+       id MEDIUMINT NOT NULL AUTO_INCREMENT,
+       description VARCHAR(500),
+       event_time DATETIME,
+       leader_id MEDIUMINT,
+       PRIMARY KEY (id)
+);
+CREATE TABLE user_events (
+       user_id MEDIUMINT,
+       event_id MEDIUMINT
+);
+CREATE TABLE groups (
+       id MEDIUMINT NOT NULL AUTO_INCREMENT,
+       group_name VARCHAR(30),
+       leader_id MEDIUMINT,
+       PRIMARY KEY (id)
+);
+CREATE TABLE user_groups (
+       user_id MEDIUMINT,
+       group_id MEDIUMINT
+);
+       

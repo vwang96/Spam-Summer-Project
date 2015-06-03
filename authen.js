@@ -3,14 +3,14 @@ var mysqlconnection = mysql.createConnection({
     host     : 'localhost',
     user     : 'alvin',
     password : 'spam',
-    database : 'users'
+    database : 'eventping'
 });
 mysqlconnection.connect();
 
 //Authenticate function to check if the user is in the database
 exports.authenicate = function(user,pass,callback){  
     var auth = false;
-    var query = 'SELECT * from login where name = "'+user+'" and password = "'+pass+'"';
+    var query = 'SELECT * from users where username = "'+user+'" and password = "'+pass+'"';
 
     //Find all users with user/pass combination
     mysqlconnection.query(query,function(err,rows,fields){
@@ -23,7 +23,7 @@ exports.authenicate = function(user,pass,callback){
 //Check if the user name exists in the database
 exports.existsuser = function(user,pass,callback){    
     var auth = false;
-    var query = 'SELECT * from login where name = "'+user+'"';
+    var query = 'SELECT * from users where username = "'+user+'"';
 
     //Find all users with the username
     mysqlconnection.query(query,function(err,rows,fields){  
@@ -35,7 +35,7 @@ exports.existsuser = function(user,pass,callback){
 
 //Add the user/pass combination to the database
 exports.adduser = function(user,pass,callback){
-    var query = 'INSERT INTO login (name,password) VALUES ("'+user+'","'+pass+'")';
+    var query = 'INSERT INTO users (username,password,name) VALUES ("'+user+'","'+pass+'","tempname")';
     
     mysqlconnection.query(query,function(err,rows,fields){
 	callback();
