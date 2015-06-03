@@ -60,11 +60,11 @@
     <h2>User's profile information</h2>
     <div id="profile"></div>
 
-    <h2>User's friends that are visible to this app</h2>
-    <div id="visiblePeople"></div>
+    <!--  <h2>User's friends that are visible to this app</h2> -->
+    <!--  <div id="visiblePeople"></div> -->
 
-   <h2>Authentication Logs</h2>
-   <pre id="authResult"></pre>
+    <!--  <h2>Authentication Logs</h2> -->
+    <!-- <pre id="authResult"></pre> -->
   </div>
   <div id="loaderror">
     This section will be hidden by JQuery. If you can see this message, you
@@ -93,7 +93,6 @@ var helper = (function() {
         $('#authOps').show('slow');
         $('#gConnect').hide();
         helper.profile();
-        helper.people();
       } else if (authResult['error'] ||
           authResult.currentUser.get().getAuthResponse() == null) {
         // There was an error, which means the user is not signed in.
@@ -113,24 +112,6 @@ var helper = (function() {
       auth2.disconnect();
     },
     /**
-     * Gets and renders the list of people visible to this app.
-     */
-    people: function() {
-      gapi.client.plus.people.list({
-        'userId': 'me',
-        'collection': 'visible'
-      }).then(function(res) {
-        var people = res.result;
-        $('#visiblePeople').empty();
-        $('#visiblePeople').append('Number of people visible to this app: ' +
-            people.totalItems + '<br/>');
-        for (var personIndex in people.items) {
-          person = people.items[personIndex];
-          $('#visiblePeople').append('<img src="' + person.image.url + '">');
-        }
-      });
-    },
-    /**
      * Gets and renders the currently signed in user's profile data.
      */
     profile: function(){
@@ -143,18 +124,13 @@ var helper = (function() {
         $('#profile').append(
             $('<p><img src=\"' + profile.image.url + '\"></p>'));
         $('#profile').append(
-            $('<p>Hello ' + profile.displayName + '!<br />Tagline: ' +
-            profile.tagline + '<br />About: ' + profile.aboutMe + '</p>'));
+		$('<p>Hello ' + profile.displayName + '</p>'));
         if (profile.emails) {
           $('#profile').append('<br/>Emails: ');
           for (var i=0; i < profile.emails.length; i++){
             $('#profile').append(profile.emails[i].value).append(' ');
           }
           $('#profile').append('<br/>');
-        }
-        if (profile.cover && profile.coverPhoto) {
-          $('#profile').append(
-              $('<p><img src=\"' + profile.cover.coverPhoto.url + '\"></p>'));
         }
       }, function(err) {
         var error = err.result;

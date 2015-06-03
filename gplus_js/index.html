@@ -7,6 +7,19 @@
     <input type="button"  value="Logout" onclick="logout()" />
     
     <div id="profile"></div>
+
+    <script src="https://apis.google.com/js/client:platform.js?onload=startApp" async defer></script> 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+
+    <script type="text/javascript">
+      (function() {
+           var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+           po.src = 'https://apis.google.com/js/client.js?onload=onLoadCallback';
+           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
+    </script>
+
     <script type="text/javascript">
       function logout()
       {
@@ -68,13 +81,6 @@
  
     </script>
     
-    <script type="text/javascript">
-      (function() {
-           var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-           po.src = 'https://apis.google.com/js/client.js?onload=onLoadCallback';
-           var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-      })();
-    </script>
     
   </body>
 </html>
