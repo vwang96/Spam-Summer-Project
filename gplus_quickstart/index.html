@@ -25,11 +25,30 @@
   <!-- JavaScript specific to this application that is not related to API
      calls -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" ></script>
-  <meta name="google-signin-client_id" content="577176448265-gli7qr563j89o83n35cjj3b9spq9ickb"></meta>
+  <script type="text/javascript">
+    (function () {
+      var po = document.createElement('script');
+      po.type = 'text/javascript';
+      po.async = true;
+      po.src = 'https://plus.google.com/js/client:plusone.js?onload=start';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(po, s);
+    })();
+  </script>
+  <meta name="google-signin-client_id" content="577176448265-gli7qr563j89o83n35cjj3b9spq9ickb.apps.googleusercontent.com"></meta>
 </head>
 <body>
   <div id="gConnect">
-    <div id="signin-button"></div>
+    <div id="signin-button">
+      <span class="g-signin"
+	    data-scope="https://www.googleapis.com/auth/plus.login email"
+	    data-clientid="577176448265-gli7qr563j89o83n35cjj3b9spq9ickb.apps.googleusercontent.com"
+	    data-redirecturi="postmessage"
+	    data-accesstype="offline"
+	    data-cookiepolicy="single_host_origin"
+	    data-callback="signInCallback">
+      </span>
+    </div>
   </div>
   <div id="authOps" style="display:none">
     <h2>User is now signed in to the app using Google+</h2>
@@ -44,8 +63,8 @@
     <h2>User's friends that are visible to this app</h2>
     <div id="visiblePeople"></div>
 
-    <h2>Authentication Logs</h2>
-    <pre id="authResult"></pre>
+   <h2>Authentication Logs</h2>
+   <pre id="authResult"></pre>
   </div>
   <div id="loaderror">
     This section will be hidden by JQuery. If you can see this message, you
