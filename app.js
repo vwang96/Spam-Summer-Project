@@ -35,6 +35,7 @@ app.route('/login')
 	login.authenicate(req.query.user,req.query.pass,function(auth){
 	    console.log(auth);
 	    if(auth){
+		sess = req.session;
 		sess.user = req.query.user;
 		res.send('');
 		console.log(sess.user);
