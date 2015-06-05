@@ -14,42 +14,40 @@ app.use(express.static(__dirname + '/public'));
 var sess;
 
 //Home page
-app.get('/',function(req,res){
-    sess = req.session
-    if(sess.user)
-	res.render('index',{greeting: 'You are logged in as ', user: sess.user});
-    else
-	res.render('index',{greeting: 'Welcome guest!'});
-	
-});
-
-//Login page
-app.route('/login')
+app.route('/')
     .get(function(req,res){
 	sess = req.session;
+	console.log("/");
+	console.log(sess.user);
+	console.log(sess);
+
 	if(sess.user)
-	    res.redirect('/');
+	    res.render('index',{greeting: 'You are logged in as ', user: sess.user});
 	else
-	    res.render('login');
-    })
-    .post(function(req,res){
-	sess = req.session;
-	//Authenicate the user
-	login.authenicate(req.body.user,req.body.pass,function(auth){
-	    //If the user is found, add them to the session and redirect to homepage
-	    if(auth){
-		sess.user = req.body.user;
-		res.redirect('/');
-	    }
-	    else{
-		//Reloads the page with error messages
-		res.render('login', {error:"Invalid user/pass combo"});
-		console.log("Invalid user/pass combo");
-	    }
-	})
+	    res.render('index',{greeting: 'Welcome guest!'});
+	
     });
 
-//Register page
+//Login
+app.route('/login')
+    .get(function(req,res){
+	//console.log(req.query);
+	login.authenicate(req.query.user,req.query.pass,function(auth){
+	    console.log(auth);
+	    if(auth){
+		sess.user = req.query.user;
+		res.send('');
+		console.log(sess.user);
+		console.log(sess);
+	    }
+	    else{
+		res.send("Invalid user/pass combo");
+	    }
+	});
+    });
+
+
+//Register
 app.route('/register')
     .get(function(req,res){
 	sess = req.session;
@@ -97,5 +95,4 @@ var server = app.listen(3000,function(){
     var host = server.address().address;
     var port = server.address().port;
     console.log("Example app listening at http://%s:%s",host,port);
-
 });

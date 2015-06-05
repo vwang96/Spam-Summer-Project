@@ -43,27 +43,28 @@ html
                     .social_login
                       .user_login
                         form
+                          label#loginerrmsg
                           label Email/Username
-                          input(type="text")
+                          input#loginuser(type="text")
                           label Password
-                          input(type="password")
+                          input#loginpass(type="password")
                           .checkbox
                             input#remember(type="checkbox")
                             label(for='remember') Remember Me
                         a.forgot_password(href="#") Forgot Password?
                       .action_btns
                         .one_half
-                          a#login.btn_l(href="#") Login
+                          a#login.btn_l(href="#" onClick="clickedLogin()") Login
                         .one_half.last
                           a#register_form.btn_l(href="#") Sign up
                     .user_register
                       form
                         label Username
-                        input(type="text")
+                        input(type="text" name="registeruser")
                         label Password
-                        input(type="password")
+                        input(type="password" name="registerpass")
                         label Email Address
-                        input(type="email")
+                        input(type="email" name="registeremail")
                         .action_btns
                           .one_half
                             a.btn_l.back_btn
@@ -90,3 +91,17 @@ html
         return false;
       });
     })
+    var clickedLogin = function(){
+      var parameters = { user: $('#loginuser').val(),
+                         pass: $('#loginpass').val() };
+      $.ajax({url: '/login',
+              data: parameters,
+              success: function(msg){
+                if(msg == '')
+                  window.location.reload(true);
+                else{
+                  $('#loginerrmsg').html(msg);
+                }
+              }});
+
+    }
