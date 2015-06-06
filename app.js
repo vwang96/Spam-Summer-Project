@@ -17,9 +17,6 @@ var sess;
 app.route('/')
     .get(function(req,res){
 	sess = req.session;
-	console.log("/");
-	console.log(sess.user);
-	console.log(sess);
 
 	if(sess.user)
 	    res.render('index',{greeting: 'You are logged in as ', user: sess.user});
@@ -31,17 +28,15 @@ app.route('/')
 //Login
 app.route('/login')
     .get(function(req,res){
-	//console.log(req.query);
+	//Check for user/pass combo in user table
 	login.authenicate(req.query.user,req.query.pass,function(auth){
-	    console.log(auth);
 	    if(auth){
 		sess = req.session;
 		sess.user = req.query.user;
 		res.send('');
-		console.log(sess.user);
-		console.log(sess);
 	    }
 	    else{
+		//Send error message to page
 		res.send("Invalid user/pass combo");
 	    }
 	});
@@ -51,27 +46,23 @@ app.route('/login')
 //Register
 app.route('/register')
     .get(function(req,res){
-	sess = req.session;
-	if(sess.user)
-	    res.redirect('/');
-	else
-	    res.render('register');
-    })
-    .post(function(req,res,callback){
 	//Check if the username is taken
-	login.existsuser(req.body.user,req.body.pass,function(userExists){
+	var user = req.query.user;
+	var pass = req.query.pass;
+	var email = req.query.email;
+	var name = req.query.name;
+	login.existsuser(user,email,function(userExists){
 	    if(userExists){
-		//Reloads the page with error messages
-		res.render('register',{error:"User already exists"});
-		console.log("User already exists");
+		//Send error message to page
+		res.send("User or email already exists");
 	    }
 	    else{
 		//If the user does not exist, add them to the database,
 		//log them in, and redirect to homepage
-		login.adduser(req.body.user,req.body.pass,function(added){
+		login.adduser(user,pass,email,name,function(added){
 		    sess = req.session;
-		    sess.user = req.body.user;
-		    res.redirect('/');	
+		    sess.user = user;
+		    res.send('');
 		});
 	    }
 	});

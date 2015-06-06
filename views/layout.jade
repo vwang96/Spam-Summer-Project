@@ -59,22 +59,23 @@ html
                           a#register_form.btn_l(href="#") Sign up
                     .user_register
                       form
+                        label#registererrmsg
                         label Username
-                        input(type="text" name="registeruser")
+                        input#registeruser(type="text")
                         label Password
-                        input(type="password" name="registerpass")
+                        input#registerpass(type="password")
                         label Email Address
-                        input(type="email" name="registeremail")
+                        input#registeremail(type="email")
                         .action_btns
                           .one_half
                             a.btn_l.back_btn
                               i.fa.fa-angle-double-left Back
                           .one_half.last
-                            a.btn_l.btn_red(href="#") Register
+                            a.btn_l.btn_red(href="#" onClick="clickedRegister()") Register
     block content
   footer
   script.
-    $("#modal_trigger").leanModal({top : 200, overlay : 0.6, closeButton: ".modal_close" });
+    $("#modal_trigger").leanModal({top : 200, overlay : 0.6, closeButton: ".modal_close"});
     $(function(){
       // Calling Register Form
       $("#register_form").click(function(){
@@ -101,6 +102,22 @@ html
                   window.location.reload(true);
                 else{
                   $('#loginerrmsg').html(msg);
+                }
+              }});
+
+    }
+    var clickedRegister = function(){
+      var parameters = { user: $('#registeruser').val(),
+                         pass: $('#registerpass').val(),
+                         email:$('#registeremail').val(),
+                         name: $('#registername').val() };
+      $.ajax({url: '/register',
+              data: parameters,
+              success: function(msg){
+                if(msg == '')
+                  window.location.reload(true);
+                else{
+                  $('#registererrmsg').html(msg);
                 }
               }});
 
