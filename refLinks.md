@@ -14,4 +14,7 @@ Links used for Geo
  * [JS map with search bar](https://developers.google.com/maps/documentation/javascript/examples/places-searchbox)
  * [Autocomplete](https://developers.google.com/maps/documentation/javascript/places-autocomplete)
  * [Map latlng variable](https://developers.google.com/maps/documentation/javascript/examples/map-latlng-literal)
-
+ * [Geocoding](https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingResults)
+ * [Click events](https://developers.google.com/maps/documentation/javascript/examples/event-simple)
+ * [Markers](https://developers.google.com/maps/documentation/javascript/markers)
+ * [Zoom to include all markers](http://stackoverflow.com/questions/19304574/center-set-zoom-of-map-to-cover-all-markers-visible-markers)
