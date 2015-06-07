@@ -1,4 +1,3 @@
-var key = "&key=AIzaSyAgg1ndakXo3FYqjvzqRC_6pOntywp3RFo"
 var placeQ = "?"
 var searchQ = "?"
 var place = "https://www.google.com/maps/embed/v1/place?q="
