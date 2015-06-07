@@ -3,9 +3,11 @@
 // pick list containing a mix of places and predicted search terms.
 
 function nameSpace(){
-    var EVENT_LOCATION = "";
+    var event_location;
+    var event_latlng;
     var D_BOUNDS="";
     var markers = [];
+    var eButton = document.getElementById("confirmEvent");
     
     function initialize() {
 	var map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -77,7 +79,7 @@ function nameSpace(){
 	});
 	// [END region_getplaces]
 	
-	// Bias the SearchBox results towards places that are within the bounds of the
+	//Bias the SearchBox results towards places that are within the bounds of the
 	// current map's viewport.
 	google.maps.event.addListener(map, 'bounds_changed', function() {
 	    //var bounds = map.getBounds();
@@ -96,10 +98,10 @@ function nameSpace(){
 	    map.setCenter(marker.getPosition());
 	    gCoder.geocode({'latLng': latlng}, function(results, status) {
 		if (status == google.maps.GeocoderStatus.OK) {
-		    eLocation.innerHTML = marker.title + " "+ 
+		    eLocation.innerHTML = marker.title + " @ "+ 
 			results[0].formatted_address;	
-		createEventObj(results[0].formatted_address,
-			       marker.title,map);	
+		    createEventObj(results[0].formatted_address,
+				   marker.title,map);	
 		}
 	    });
 	    for(var z = 0;z< markers.length;z++)
@@ -112,15 +114,15 @@ function nameSpace(){
     
     function createEventObj(addr,name,map){
 	var tb = document.getElementById("allLocs");
-	var r = tb.insertRow(tb.rows.length);
+	var r = tb.insertRow(tb.rows.length); //adds to end
 	var c1 = r.insertCell(0);
-	var c2 = r.insertCell(1);
-	c1.innerHTML = tb.rows.length -1;
-	c2.innerHTML = name+" "+addr;
+	c1.innerHTML = name+" "+addr;
 	r.addEventListener("click",function(){
 	    var gCoder = new google.maps.Geocoder();
 	    gCoder.geocode({"address":addr},function(results,status){
 		if(status == google.maps.GeocoderStatus.OK){
+		    var eLocation = document.getElementById("eventLoc");
+		    eLocation.innerHTML = name + " @ "+addr;
 		    map.setCenter(results[0].geometry.location);
 		    var marker = new google.maps.Marker({
 			map: map,
@@ -128,8 +130,6 @@ function nameSpace(){
 			position: results[0].geometry.location
 		    });
 		    markers.push(marker);
-		    console.log(markers);
-		    console.log(markers.length);
 		    for(var m =0,thisM;thisM=markers[m];m++)
 			if(thisM != marker){
 			    thisM.setMap(null);
@@ -140,6 +140,9 @@ function nameSpace(){
 	});
     }
     
+    eButton.addEventListener("click",function(){
+	console.log("clicked");
+    });
     initialize();
 }		      
 
