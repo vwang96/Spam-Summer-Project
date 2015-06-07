@@ -101,11 +101,12 @@ function assignClickEvent(marker,markers,map){
 				      marker.title,map,markers);
 		    }
 	});
-	for(var m = 0;m<markers.length;m++){
-	    if(markers[m] != marker)
-		markers[m].setMap(null);
-	    markers.splice(m,1);
-	}
+	for(var m = 0,thisM;thisM = markers[m];m++)
+	    if(thisM.title !== marker.title){
+		console.log(thisM);
+		thisM.setMap(null);
+		markers.splice(m,1);
+	    }
     });
 }
 
@@ -117,6 +118,7 @@ function createEventObj(addr,name,map,markers){
     c1.innerHTML = tb.rows.length -1;
     c2.innerHTML = name+" "+addr;
     r.addEventListener("click",function(){
+	console.log(markers);
 	var gCoder = new google.maps.Geocoder();
 	gCoder.geocode({"address":addr},function(results,status){
 	    if(status == google.maps.GeocoderStatus.OK){
@@ -127,12 +129,11 @@ function createEventObj(addr,name,map,markers){
 		    position: results[0].geometry.location
 		});
 		markers.push(marker);
-		for(var m =0;m<markers.length;m++){
-		    if(markers[m] != marker){
-			markers[m].setMap(null);
+		for(var m =0,thisM;thisM=markers[m];m++){
+		    if(thisM != marker){
+			thisM.setMap(null);
 			markers.splice(m,1);
 		    }
-		    console.log(markers[m].title);
 		}
 	    }
 	});
