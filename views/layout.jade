@@ -33,45 +33,50 @@ html
                 li
                   a(href="/events") Events
               form.navbar-form.navbar-right
-                a#modal_trigger.btn.btn-success(href="#modal") Login
-                #modal.popupContainer(style="display:none;")
-                  header.popupHeader
-                    span.header_title Login
-                    span.modal_close
-                      i.fa.fa_times
-                  section.popupBody
-                    .social_login
-                      .user_login
-                        form
-                          label#loginerrmsg
-                          label Email/Username
-                          input#loginuser(type="text")
-                          label Password
-                          input#loginpass(type="password")
-                          .checkbox
-                            input#remember(type="checkbox")
-                            label(for='remember') Remember Me
-                        a.forgot_password(href="#") Forgot Password?
-                      .action_btns
-                        .one_half
-                          a#login.btn_l(href="#" onClick="clickedLogin()") Login
-                        .one_half.last
-                          a#register_form.btn_l(href="#") Sign up
-                    .user_register
-                      form
-                        label#registererrmsg
-                        label Username
-                        input#registeruser(type="text")
-                        label Password
-                        input#registerpass(type="password")
-                        label Email Address
-                        input#registeremail(type="email")
+                if user != null
+                  a#logout.btn-success.btn_l(href="#" onClick="clickedLogout()") Logout
+                else   
+                  a#modal_trigger.btn.btn-success(href="#modal") Login
+                  #modal.popupContainer(style="display:none;")
+                    header.popupHeader
+                      span.header_title Login
+                      span.modal_close
+                        i.fa.fa_times
+                    section.popupBody
+                      .social_login
+                        .user_login
+                          form
+                            label#loginerrmsg
+                            label Email/Username
+                            input#loginuser(type="text")
+                            label Password
+                            input#loginpass(type="password")
+                            .checkbox
+                              input#remember(type="checkbox")
+                              label(for='remember') Remember Me
+                          a.forgot_password(href="#") Forgot Password?
                         .action_btns
                           .one_half
-                            a.btn_l.back_btn
-                              i.fa.fa-angle-double-left Back
+                            a#login.btn_l(href="#" onClick="clickedLogin()") Login
                           .one_half.last
-                            a.btn_l.btn_red(href="#" onClick="clickedRegister()") Register
+                            a#register_form.btn_l(href="#") Sign up
+                      .user_register
+                        form
+                          label#registererrmsg
+                          label Username
+                          input#registeruser(type="text")
+                          label Password
+                          input#registerpass(type="password")
+                          label Email Address
+                          input#registeremail(type="email")
+                          .action_btns
+                            .one_half
+                              a.btn_l.back_btn
+                                i.fa.fa-angle-double-left Back
+                            .one_half.last
+                              a.btn_l.btn_red(href="#" onClick="clickedRegister()") Register
+
+
     block content
   footer
   script.
@@ -122,3 +127,13 @@ html
               }});
 
     }
+    var clickedLogout = function(){
+      $.ajax({url: '/logout',
+              success: function(msg){
+                if(msg == '')
+                  window.location.reload(true);
+                else{
+                  $('#logoutmsg').html(msg);
+                }
+              }});
+     }

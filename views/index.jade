@@ -1,4 +1,5 @@
 extends ./layout.jade
 
 block content
-  p #{greeting} #{user}
+  if user != null
+     p #{greeting} #{user}

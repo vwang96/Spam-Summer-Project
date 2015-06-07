@@ -76,7 +76,7 @@ app.route('/logout')
 		console.log(err);
 	    }
 	    else{
-		res.redirect('/');
+		res.send('');
 	    }
 	});
     });
