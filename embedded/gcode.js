@@ -65,28 +65,37 @@ function initialize() {
 		title: place.name,
 		position: place.geometry.location
 	    });
+	    console.log(marker.title);
 	    google.maps.event.addListener(marker, 'click', function() {
+		console.log(marker.title);
+		/*
 		var eLocation = document.getElementById("eventLoc");
-		var latlng = new google.maps.LatLng(marker.getPosition());
-		console.log(marker.getPosition());
+		var latlng = new google.maps.LatLng(
+		    marker.getPosition().A,marker.getPosition().F);
 		map.setZoom(17);
 		map.setCenter(marker.getPosition());
 		gCoder.geocode({'latLng': latlng}, function(results, status) {
 		    if (status == google.maps.GeocoderStatus.OK) {
 			if(eLocation.innerHTML == "Event Location: ")
-			    eLocation.innerHTML = eLocation.innerHTML + 
+			    eLocation.innerHTML = marker.title+" "+
+			    results[0].formatted_address;
+			else
+			    eLocation.innerHTML = marker.title+" "+ 
 			    results[0].formatted_address;
 		    }
 		});
 		for(var m = 0;m<markers.length;m++)
 		    if(markers[m] != marker)
 			markers[m].setMap(null);
-	    });
+			*/
+	    });	    
+	    
 	    markers.push(marker);
 	    
 	    bounds.extend(place.geometry.location);
 	}
-	
+
+
 	map.fitBounds(bounds);
     });
     // [END region_getplaces]
