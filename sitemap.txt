@@ -5,3 +5,17 @@
 * Events
 	* Personal Event Page
 		* Ping Map
+		
+Version Alan:
+*Home (before login, site explanation.  After login, summary of stuff going on)
+ -login/register (self explanatory)
+ 
+*Account Profile (events you are part of, your history, information, edit information, picture, silly status, karma)
+
+*Events (Contains a list of events that you are part of.  Contains a creation area.)
+  -Event Page
+    -Event chat (for all members of an event.  Can use @name to get attention)
+    -Step one, creation (this page contains all the things you can do when an event is in the creation stage.  An idea list, where you can propose an idea to add to the list, or click on an idea to view details and vote on it.  The maps appear when proposing or viewing an idea. A calendar for availability where you can edit your own availability and edit the display via color coding/adding percents/etc.  You can also vote for days.  In the end, decisions are made either by majority rule or moderator [decided at event creation].  It's possible that a multi-phase event requires multiple parts, however.  We might use tabs for this? Up to front end)
+    -Step two, planning (This phase's importance depends on the type of event, but moderators can add roles and optionally nominate people, and people can fill roles.  Once again, may need to be split into parts.)
+    -Step three, event day management (A list of members is displayed, and a space for info to appear in.  Clicking a member will bring up their info-role, location, status, etc.  Self is automatically at top of list; to update status and/or location, click self.  The info screen will look different and you can ping location, optionally set to auto tracking, and update status/report emergency)
+*Contacts (List of your contacts. There is a part where you add contacts/create groups.  It has recommended contacts.  The list is split into individual contacts and groups.  There is a part that is blank until you click a contact or group.  When you click a contact, it lists that person's information and buttons to edit/remove/etc.  When you click a group it lists the members and in there it has buttons for editing.
