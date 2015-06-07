@@ -7,14 +7,14 @@ var mysqlconnection = mysql.createConnection({
 });
 mysqlconnection.connect();
 
-exports.createGroup = function(userid,eventDescription,eventTime,callback){
+exports.createEvent = function(userid,eventDescription,eventTime,callback){
     //Insert the eventinfo and creator of the group into the events
     var query = 'INSERT INTO events VALUES ("' + description + '","' + eventTime + '",' + userid + ')';
     mysqlconnection.query(query,function(err,row,fields){
 	callback();
     });
 }
-exports.addUserToEvent = function(userid,eventid){
+exports.addUserToEvent = function(userid,eventid,callback){
     //Insert user,event pair into user_events
     var query = 'INSERT INTO user_events VALUES (' + userid + ',' + eventid + ')';
     mysqlconnection.query(query,function(err,row,fields){
@@ -23,7 +23,7 @@ exports.addUserToEvent = function(userid,eventid){
 
 }
 
-exports.removeUserFromGroup = function(userid,eventid){
+exports.removeUserFromEvent = function(userid,eventid,callback){
     //Remove user,event pair from user_events
     var query = 'DELETE FROM user_events WHERE userid = ' + userid + ' and eventid = ' + eventid;
     

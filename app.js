@@ -8,72 +8,61 @@ var app = express();
 app.use(session({secret: 'ssshhhhh'}));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
-
-
 app.set('view engine','jade');
-
+app.set('views',__dirname + '/views');
+app.use(express.static(__dirname + '/public'));
 var sess;
 
 //Home page
-app.get('/',function(req,res){
-    sess = req.session
-    if(sess.user)
-	res.render('index',{greeting: 'You are logged in as ', user: sess.user});
-    else
-	res.render('index',{greeting: 'Welcome guest!'});
-	
-});
-
-//Login page
-app.route('/login')
+app.route('/')
     .get(function(req,res){
 	sess = req.session;
+
 	if(sess.user)
-	    res.redirect('/');
+	    res.render('index',{greeting: 'You are logged in as ', user: sess.user});
 	else
-	    res.render('login');
-    })
-    .post(function(req,res){
-	sess = req.session;
-	//Authenicate the user
-	login.authenicate(req.body.user,req.body.pass,function(auth){
-	    //If the user is found, add them to the session and redirect to homepage
-	    if(auth){
-		sess.user = req.body.user;
-		res.redirect('/');
-	    }
-	    else{
-		//Reloads the page with error messages
-		res.render('login', {error:"Invalid user/pass combo"});
-		console.log("Invalid user/pass combo");
-	    }
-	})
+	    res.render('index',{greeting: 'Welcome guest!'});
+	
     });
 
-//Register page
+//Login
+app.route('/login')
+    .get(function(req,res){
+	//Check for user/pass combo in user table
+	login.authenicate(req.query.user,req.query.pass,function(auth){
+	    if(auth){
+		sess = req.session;
+		sess.user = req.query.user;
+		res.send('');
+	    }
+	    else{
+		//Send error message to page
+		res.send("Invalid user/pass combo");
+	    }
+	});
+    });
+
+
+//Register
 app.route('/register')
     .get(function(req,res){
-	sess = req.session;
-	if(sess.user)
-	    res.redirect('/');
-	else
-	    res.render('register');
-    })
-    .post(function(req,res,callback){
 	//Check if the username is taken
-	login.existsuser(req.body.user,req.body.pass,function(userExists){
+	var user = req.query.user;
+	var pass = req.query.pass;
+	var email = req.query.email;
+	var name = req.query.name;
+	login.existsuser(user,email,function(userExists){
 	    if(userExists){
-		//Reloads the page with error messages
-		res.render('register',{error:"User already exists"});
-		console.log("User already exists");
+		//Send error message to page
+		res.send("User or email already exists");
 	    }
 	    else{
 		//If the user does not exist, add them to the database,
 		//log them in, and redirect to homepage
-		login.adduser(req.body.user,req.body.pass,function(added){
+		login.adduser(user,pass,email,name,function(added){
 		    sess = req.session;
-		    sess.user = req.body.user;
-		    res.redirect('/');	
+		    sess.user = user;
+		    res.send('');
 		});
 	    }
 	});
@@ -98,7 +87,4 @@ var server = app.listen(3000,function(){
     var host = server.address().address;
     var port = server.address().port;
     console.log("Example app listening at http://%s:%s",host,port);
-
 });
-
-

@@ -14,7 +14,7 @@ exports.createGroup = function(userid,groupName,callback){
 	callback();
     });
 }
-exports.addUserToGroup = function(userid,groupid){
+exports.addUserToGroup = function(userid,groupid,callback){
     //Insert user,group pair into user_groups
     var query = 'INSERT INTO user_groups VALUES (' + userid + ',' + groupid + ')';
     mysqlconnection.query(query,function(err,row,fields){
@@ -23,7 +23,7 @@ exports.addUserToGroup = function(userid,groupid){
 
 }
 
-exports.removeUserFromGroup = function(userid,groupid){
+exports.removeUserFromGroup = function(userid,groupid,callback){
     //Remove user,group pair from user_groups
     var query = 'DELETE FROM user_groups WHERE userid = ' + userid + ' and groupid = ' + groupid;
     
