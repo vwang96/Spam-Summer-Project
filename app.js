@@ -80,6 +80,16 @@ app.route('/logout')
 	    }
 	});
     });
+
+app.route('/profile')
+    .get(function(req, res){
+	sess = req.session;
+	if(sess.user)
+	    res.render('profile',{user: sess.user});
+	else
+	    res.send('Not logged in');
+    });
+
 	    
 	    
 
