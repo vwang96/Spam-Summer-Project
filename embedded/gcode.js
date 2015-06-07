@@ -91,21 +91,20 @@ function assignClickEvent(marker,markers,map){
 	var eLocation = document.getElementById("eventLoc");
 	var latlng = new google.maps.LatLng(marker.getPosition().A,
 					    marker.getPosition().F);
-	map.setZoom(17);
+	map.setZoom(16);
 	map.setCenter(marker.getPosition());
 	gCoder.geocode({'latLng': latlng}, function(results, status) {
-		    if (status == google.maps.GeocoderStatus.OK) {
-			eLocation.innerHTML = marker.title + " "+ 
-			    results[0].formatted_address;			
-			createEventObj(results[0].formatted_address,
-				      marker.title,map,markers);
-		    }
+	    if (status == google.maps.GeocoderStatus.OK) {
+		eLocation.innerHTML = marker.title + " "+ 
+		    results[0].formatted_address;			
+		createEventObj(results[0].formatted_address,
+			       marker.title,map,markers);
+	    }
 	});
-	for(var m = 0,thisM;thisM = markers[m];m++)
-	    if(thisM.title !== marker.title){
-		console.log(thisM);
-		thisM.setMap(null);
-		markers.splice(m,1);
+	for(var z = 0;z< markers.length;z++)
+	    if(markers[z].title !== marker.title){
+		markers[z].setMap(null);
+		markers.splice(z--,1);
 	    }
     });
 }
@@ -118,7 +117,6 @@ function createEventObj(addr,name,map,markers){
     c1.innerHTML = tb.rows.length -1;
     c2.innerHTML = name+" "+addr;
     r.addEventListener("click",function(){
-	console.log(markers);
 	var gCoder = new google.maps.Geocoder();
 	gCoder.geocode({"address":addr},function(results,status){
 	    if(status == google.maps.GeocoderStatus.OK){
@@ -129,12 +127,11 @@ function createEventObj(addr,name,map,markers){
 		    position: results[0].geometry.location
 		});
 		markers.push(marker);
-		for(var m =0,thisM;thisM=markers[m];m++){
+		for(var m =0,thisM;thisM=markers[m];m++)
 		    if(thisM != marker){
 			thisM.setMap(null);
-			markers.splice(m,1);
+			markers.splice(m--,1);
 		    }
-		}
 	    }
 	});
     });
