@@ -65,13 +65,13 @@ function initialize() {
 		title: place.name,
 		position: place.geometry.location
 	    });
-
 	    assignClickEvent(marker,markers,map);
 	    markers.push(marker);
 	    
 	    bounds.extend(place.geometry.location);
 	}
-	
+
+
 	map.fitBounds(bounds);
     });
     // [END region_getplaces]
