@@ -34,7 +34,7 @@ html
                   a(href="/events") Events
               form.navbar-form.navbar-right
                 if user != null
-                  div(class="form-group") You are logged in as #{user} &nbsp
+                  div.form-group You are logged in as #{user} &nbsp
                   button#logout.btn.btn-success.btn_r(href="#" onClick="clickedLogout()") Logout
                 else   
                   button#modal_trigger.btn.btn-success.btn_r(href="#modal") Login
@@ -51,7 +51,7 @@ html
                             label Email/Username
                             input#loginuser(type="text")
                             label Password
-                            input#loginpass(type="password")
+                            input#loginpass(type="password" onkeypress="if (event.keyCode == 13) document.getElementById('login').click()")
                             .checkbox
                               input#remember(type="checkbox")
                               label(for='remember') Remember Me
@@ -69,15 +69,15 @@ html
                           label Password
                           input#registerpass(type="password")
                           label Confirm Password
-                          input#loginconfirm(type="password")
+                          input#registerconfirm(type="password")
                           label Email Address
-                          input#registeremail(type="email")
+                          input#registeremail(type="email" onkeypress="if (event.keyCode == 13) document.getElementById('register').click()")
                           .action_btns
                             .one_half
                               a.btn_l.back_btn
                                 i.fa.fa-angle-double-left Back
                             .one_half.last
-                              a.btn_l.btn_red(href="#" onClick="clickedRegister()") Register
+                              a#register.btn_l.btn_red(href="#" onClick="clickedRegister()") Register
 
       block content
 
@@ -117,8 +117,10 @@ html
     var clickedRegister = function(){
       var parameters = { user: $('#registeruser').val(),
                          pass: $('#registerpass').val(),
+                         confirm: $('#registerconfirm').val(),
                          email:$('#registeremail').val(),
                          name: $('#registername').val() };
+      
       $.ajax({url: '/register',
               data: parameters,
               success: function(msg){

@@ -34,8 +34,7 @@ app.route('/login')
 		sess = req.session;
 		sess.user = req.query.user;
 		res.send('');
-	    }
-	    else{
+	    } else {
 		//Send error message to page
 		res.send("Invalid user/pass combo");
 	    }
@@ -49,23 +48,28 @@ app.route('/register')
 	//Check if the username is taken
 	var user = req.query.user;
 	var pass = req.query.pass;
+	var confirm = req.query.confirm;
 	var email = req.query.email;
 	var name = req.query.name;
-	login.existsuser(user,email,function(userExists){
-	    if(userExists){
-		//Send error message to page
-		res.send("User or email already exists");
-	    }
-	    else{
-		//If the user does not exist, add them to the database,
-		//log them in, and redirect to homepage
-		login.adduser(user,pass,email,name,function(added){
-		    sess = req.session;
-		    sess.user = user;
-		    res.send('');
+	if( pass === confirm ) {
+		login.existsuser(user,email,function(userExists){
+		    if(userExists){
+			//Send error message to page
+			res.send("User or email already exists");
+		    }
+		    else{
+			//If the user does not exist, add them to the database,
+			//log them in, and redirect to homepage
+			login.adduser(user,pass,email,name,function(added){
+			    sess = req.session;
+			    sess.user = user;
+			    res.send('');
+			});
+		    }
 		});
-	    }
-	});
+	} else {
+		res.send("Passwords do not match");
+	}
     })
 	
 

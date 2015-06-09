@@ -1,12 +1,12 @@
 extends ./layout.jade
 
 block content
-  div(class="col-sm-3")
-    div(class="img-rounded sidebar")
-      div(id="clockbox")
-    div(class="img-rounded sidebar")
+  div.col-sm-3
+    div.img-rounded.sidebar
+      div.clockbox
+    div.img-rounded.sidebar
       | "The next events for user."
-  div(class="col-sm-6 img-rounded main event")
+  div.col-sm-6.img-rounded.main.event
     span(style="float:left;") Name
     span(style="float:right;") Date Registered
     br
@@ -18,8 +18,8 @@ block content
     span(style="float:right;color:#ff3232;" title="Never Attended") &nbsp 0
     span(style="float:right;color:#ffff4c;" title="Late") &nbsp 0
     span(style="float:right;color:#49e20e;" title="On-Time") 0
-  div(class="col-sm-3")
-    div(class="img-rounded rightbar")
+  div.col-sm-3
+    div.img-rounded.rightbar
       | "Group Name"
       br
       | "Number of Members"
