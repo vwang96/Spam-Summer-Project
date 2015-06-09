@@ -1,4 +1,5 @@
 var login = require('./authen');
+var profile = require('./profile');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -18,8 +19,11 @@ app.route('/')
     .get(function(req,res){
 	sess = req.session;
 
-	if(sess.user)
+	if(sess.user){
+	    var id = profile.getInfo(sess.user,function(){});
+	    console.log(id);
 	    res.render('index',{greeting: 'You are logged in as ', user: sess.user});
+	}
 	else
 	    res.render('index',{greeting: 'Welcome guest!'});
 	
