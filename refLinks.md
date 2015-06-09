@@ -19,3 +19,5 @@ Links used for Geo
  * [Markers](https://developers.google.com/maps/documentation/javascript/markers)
  * [Zoom to include all markers](http://stackoverflow.com/questions/19304574/center-set-zoom-of-map-to-cover-all-markers-visible-markers)
  * [GMAP directions](https://developers.google.com/maps/documentation/javascript/directions#Directions)
+ * [Maniupulating Directions service](http://googlemaps.googlermania.com/google_maps_api_v3/en/map_example_direction_customicon.html)
+ * [Directions service reference](https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRenderer)
