@@ -17,7 +17,11 @@ body {
 }
 
 .navbar-right {
-	width: 72px;
+	width: 75px;
+}
+
+.btn_r, .btn-success_r {
+	width: 68px;
 }
 
 .sidebar {

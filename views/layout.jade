@@ -34,9 +34,9 @@ html
                   a(href="/events") Events
               form.navbar-form.navbar-right
                 if user != null
-                  a#logout.btn-success.btn_l(href="#" onClick="clickedLogout()") Logout
+                  a#logout.btn_r.btn-success_r(href="#" onClick="clickedLogout()") Logout
                 else   
-                  a#modal_trigger.btn.btn-success(href="#modal") Login
+                  a#modal_trigger.btn_r.btn-success_r(href="#modal") Login
                   #modal.popupContainer(style="display:none;")
                     header.popupHeader
                       span.header_title Login
