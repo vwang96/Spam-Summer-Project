@@ -17,7 +17,12 @@ var sess;
 app.route('/')
     .get(function(req,res){
 	sess = req.session;
-	res.render('index');
+
+	if(sess.user)
+	    res.render('index',{user: sess.user});
+	else
+	    res.render('index');
+	
     });
 
 //Login
