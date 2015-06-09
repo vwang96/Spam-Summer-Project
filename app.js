@@ -90,7 +90,14 @@ app.route('/profile')
 	    res.send('Not logged in');
     });
 
-	    
+app.route('/events')
+    .get(function(req, res){
+	sess = req.session;
+	if(sess.user)
+	    res.render('events',{user: sess.user});
+	else
+	    res.render('events');
+    });	    
 	    
 
 var server = app.listen(3000,function(){
