@@ -8,6 +8,7 @@ var app = express();
 app.use(session({secret: 'ssshhhhh'}));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+<<<<<<< HEAD
 app.set('view engine','jade');
 app.set('views',__dirname + '/views');
 app.use(express.static(__dirname + '/public'));
@@ -70,6 +71,77 @@ app.route('/register')
 	} else {
 		res.send("Passwords do not match");
 	}
+=======
+
+
+app.set('view engine','jade');
+
+var sess;
+
+//Home page
+app.get('/',function(req,res){
+    sess = req.session
+    if(sess.user)
+	res.render('index',{greeting: 'You are logged in as ', user: sess.user});
+    else
+	res.render('index',{greeting: 'Welcome guest!'});
+	
+});
+
+//Login page
+app.route('/login')
+    .get(function(req,res){
+	sess = req.session;
+	if(sess.user)
+	    res.redirect('/');
+	else
+	    res.render('login');
+    })
+    .post(function(req,res){
+	sess = req.session;
+	//Authenicate the user
+	login.authenicate(req.body.user,req.body.pass,function(auth){
+	    //If the user is found, add them to the session and redirect to homepage
+	    if(auth){
+		sess.user = req.body.user;
+		res.redirect('/');
+	    }
+	    else{
+		//Reloads the page with error messages
+		res.render('login', {error:"Invalid user/pass combo"});
+		console.log("Invalid user/pass combo");
+	    }
+	})
+    });
+
+//Register page
+app.route('/register')
+    .get(function(req,res){
+	sess = req.session;
+	if(sess.user)
+	    res.redirect('/');
+	else
+	    res.render('register');
+    })
+    .post(function(req,res,callback){
+	//Check if the username is taken
+	login.existsuser(req.body.user,req.body.pass,function(userExists){
+	    if(userExists){
+		//Reloads the page with error messages
+		res.render('register',{error:"User already exists"});
+		console.log("User already exists");
+	    }
+	    else{
+		//If the user does not exist, add them to the database,
+		//log them in, and redirect to homepage
+		login.adduser(req.body.user,req.body.pass,function(added){
+		    sess = req.session;
+		    sess.user = req.body.user;
+		    res.redirect('/');	
+		});
+	    }
+	});
+>>>>>>> master
     })
 	
 
@@ -80,6 +152,7 @@ app.route('/logout')
 		console.log(err);
 	    }
 	    else{
+<<<<<<< HEAD
 		res.send('');
 	    }
 	});
@@ -102,10 +175,19 @@ app.route('/events')
 	else
 	    res.render('events');
     });	     
+=======
+		res.redirect('/');
+	    }
+	});
+    });
+	    
+	    
+>>>>>>> master
 
 var server = app.listen(3000,function(){
     var host = server.address().address;
     var port = server.address().port;
+<<<<<<< HEAD
     console.log("listening at http://%s:%s",host,port);
 });
 
@@ -135,3 +217,10 @@ console.error = function() {
     args[0] = timestamp + arguments[0];
     this.logCopy.apply(this, args);
 };
+=======
+    console.log("Example app listening at http://%s:%s",host,port);
+
+});
+
+
+>>>>>>> master
