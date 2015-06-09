@@ -101,11 +101,37 @@ app.route('/events')
 	    res.render('events',{user: sess.user});
 	else
 	    res.render('events');
-    });	    
-	    
+    });	     
 
 var server = app.listen(3000,function(){
     var host = server.address().address;
     var port = server.address().port;
-    console.log("Example app listening at http://%s:%s",host,port);
+    console.log("listening at http://%s:%s",host,port);
 });
+
+function time(n){
+    return n > 9 ? "" + n: "0" + n;
+}
+
+var timestamp = "[" + time(new Date().getHours()) + ":" + time(new Date().getMinutes()) + ":" + time(new Date().getSeconds()) + "] ";
+
+console.logCopy = console.log.bind(console);
+console.log = function() {
+    var args = Array.prototype.slice.call(arguments, 0);
+    args[0] = timestamp + arguments[0];
+    this.logCopy.apply(this, args);
+};
+
+console.logCopy = console.warn.bind(console);
+console.warn = function() {
+    var args = Array.prototype.slice.call(arguments, 0);
+    args[0] = timestamp + arguments[0];
+    this.logCopy.apply(this, args);
+};
+
+console.logCopy = console.error.bind(console);
+console.error = function() {
+    var args = Array.prototype.slice.call(arguments, 0);
+    args[0] = timestamp + arguments[0];
+    this.logCopy.apply(this, args);
+};
