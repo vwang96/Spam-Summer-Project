@@ -91,7 +91,7 @@ app.route('/profile')
 	if(sess.user)
 	    res.render('profile',{user: sess.user});
 	else
-	    res.render('profile');
+	    window.alert('Not logged in.');
     });
 
 app.route('/events')
