@@ -12,18 +12,24 @@
       }
     </style> -->
   </head>
-    <div>
-      <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-      <div id="map-canvas"></div>
-    </div>
-    <div>
-	    Event Location: 
-	    <input type="button" id="confirmEvent" value="Confirm Event Location">
-	    <p id="eventLoc"></p>
-    </div>
-    <table id="allLocs">
-	    <tr><td>History of Places Selected</td></tr>
-    </table>
+  <div style="float:left">
+	  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+	  <div id="map-canvas" ></div>
+  </div>
+  <div style="float:right;clear:left" >
+	  <table id="directions">
+		  <tr><td>Directions</td></tr>
+	  </table>
+  </div>
+  <div style="float:left;;">
+	  Event Location: 
+	  <input type="button" id="confirmEvent" value="Confirm Event Location"> <p id="ETA" ></p>
+	  <p id="eventLoc"></p>
+  
+	  <table id="allLocs">
+		  <tr><td>History of Places Selected</td></tr>
+	  </table>
+  </div>
 </html>
 
 <style>
