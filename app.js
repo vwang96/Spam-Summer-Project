@@ -17,12 +17,7 @@ var sess;
 app.route('/')
     .get(function(req,res){
 	sess = req.session;
-
-	if(sess.user)
-	    res.render('index',{greeting: 'You are logged in as ', user: sess.user});
-	else
-	    res.render('index',{greeting: 'Welcome guest!'});
-	
+	res.render('index');
     });
 
 //Login

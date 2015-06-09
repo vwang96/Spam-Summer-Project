@@ -20,10 +20,6 @@ body {
   padding-right: 0;
 }
 
-.form-group {
-  color: #ffffff;
-}
-
 .btn_r {
 	width: 68px;
 }

@@ -4,4 +4,3 @@ block content
   div(class="col-sm-12")
     div(class="img-rounded main map")
       input(id="pac-input" class="controls" type="text" placeholder="Search Box")
-      div(id="map-canvas")

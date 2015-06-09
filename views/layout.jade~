@@ -77,7 +77,7 @@ html
                             .one_half.last
                               a.btn_l.btn_red(href="#" onClick="clickedRegister()") Register
 
-      block content
+    block content
 
   footer
   script.
