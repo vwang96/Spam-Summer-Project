@@ -70,6 +70,7 @@ app.route('/register')
 	} else {
 		res.send("Passwords do not match");
 	}
+    });
 
 app.route('/logout')
     .get(function(req,res){
