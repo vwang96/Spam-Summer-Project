@@ -43,14 +43,27 @@ exports.update = function(field,table,conditions,newdata,callback){
 /* Inserts data into database
  * Inputs: string containing which fields we want
  *         string containing which table to get the info from
- *         string containing conditions to filter data
+ *         string containing the new data
  *         callback function with 2 parameters, error and result
  */
 exports.insert = function(fields,table,newdata,callback){
     var query = 'INSERT INTO ' + table + ' (' + fields + ') VALUES (' + newdata + ')'; 
     mysqlconnection.query(query,function(err,rows,fields){
-	console.log(err);
-	console.log(rows);
+	if(err)
+	    callback(err,null);
+	else
+	    callback(null,rows);
+    });
+}
+
+/* Removes data from database
+ * Inputs: string containing which table to get the info from
+ *         string containing conditions to filter data to remove
+ *         callback function with 2 parameters, error and result
+ */
+exports.remove = function(table,conditions,callback){
+    var query = 'DELETE FROM ' + table + '  WHERE ' + conditions;
+    mysqlconnection.query(query,function(err,rows,fields){
 	if(err)
 	    callback(err,null);
 	else
