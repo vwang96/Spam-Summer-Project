@@ -1,5 +1,7 @@
 var login = require('./db/authen');
 var profile = require('./db/profile');
+var events = require('./db/events');
+var groups = require('./db/groups');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -18,6 +20,9 @@ var sess;
 app.route('/')
     .get(function(req,res){
 	sess = req.session;
+	groups.findUsers(sess.user,function(err,results){
+	    console.log(results);
+	});
 
 	if(sess.user)
 	    res.render('index',{user: sess.user});
@@ -123,25 +128,26 @@ function time(n){
     return n > 9 ? "" + n: "0" + n;
 }
 
-var timestamp = "[" + time(new Date().getHours()) + ":" + time(new Date().getMinutes()) + ":" + time(new Date().getSeconds()) + "] ";
+var timestamp = function(){ return "[" + time(new Date().getHours()) + ":" + time(new Date().getMinutes()) + ":" + time(new Date().getSeconds()) + "] ";}
 
 console.logCopy = console.log.bind(console);
 console.log = function() {
     var args = Array.prototype.slice.call(arguments, 0);
-    args[0] = timestamp + arguments[0];
+    args[0] = timestamp() + arguments[0];
     this.logCopy.apply(this, args);
 };
 
 console.logCopy = console.warn.bind(console);
 console.warn = function() {
     var args = Array.prototype.slice.call(arguments, 0);
-    args[0] = timestamp + arguments[0];
+    args[0] = timestamp() + arguments[0];
     this.logCopy.apply(this, args);
 };
 
 console.logCopy = console.error.bind(console);
 console.error = function() {
     var args = Array.prototype.slice.call(arguments, 0);
-    args[0] = timestamp + arguments[0];
+    args[0] = timestamp() + arguments[0];
     this.logCopy.apply(this, args);
 };
+
