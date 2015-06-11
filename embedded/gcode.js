@@ -74,8 +74,9 @@ function nameSpace(){
 		bounds.extend(place.geometry.location);
 	    }
 	    
-	    
 	    map.fitBounds(bounds);
+	    if(places.length == 1)
+		google.maps.event.trigger(markers[0],"click");
 	});
 	// [END region_getplaces]
 	
@@ -148,11 +149,57 @@ function nameSpace(){
     
     function calcETA(){
 	dirDisplay.setMap(map);
+	for(var i = 0;i<markers.length;){
+	    markers[i].setMap(null);
+	    markers.splice(i,1);
+	}
 	var lat,lng;
 	if(navigator.geolocation){
 	    navigator.geolocation.getCurrentPosition(function(position){
 		lat = position.coords.latitude;
 		lng = position.coords.longitude;
+		var marker = new google.maps.Marker({
+		    map:map,
+		    title:"You",
+		    position: new google.maps.LatLng(lat,lng),
+		    icon:{url:"image/userIcon.png",
+			  scaledSize: new google.maps.Size(50,50),
+			  origin: new google.maps.Point(0,0),
+			  anchor: new google.maps.Point(25,25)
+			 }
+		});
+		google.maps.event.addListener(marker,"click",function(){
+//		    window.location.replace("image/userIcon.png");
+		    window.location.href = "image/userIcon.png";
+		});
+		var circleOpts = {
+		    'clickable': false,
+		    'radius': 0,
+		    'strokeColor': '1bb6ff',
+		    'strokeOpacity': .4,
+		    'fillColor': '61a0bf',
+		    'fillOpacity': .4,
+		    'strokeWeight': 1,
+		    'zIndex': 1
+		};
+		var circle = new google.maps.Circle(circleOpts);
+		circle.bindTo("center",marker,"position");
+		circle.bindTo("map",marker);
+		circle.setRadius(position.coords.accuracy);
+
+		markers.push(marker);
+		marker = new google.maps.Marker({
+		    map:map,
+		    title:"Your Target",
+		    position: event_latlng,
+		    icon:{url:"image/target.png",
+			  scaledSize: new google.maps.Size(50,50),
+			  origin: new google.maps.Point(0,0),
+			  anchor: new google.maps.Point(25,50)
+			 }
+		});
+		markers.push(marker);
+		    
 		var request = {
 		    origin: new google.maps.LatLng(lat,lng),
 		    destination: event_latlng,
@@ -165,8 +212,8 @@ function nameSpace(){
 			ETA.innerHTML = "ETA: "+response.routes[0].legs[0].duration.text;
 			loadSteps(response.routes[0].legs[0].steps);
 		    }
-	    else
-		console.log(status);
+		    else
+			window.alert(status);
 		});
 	
 		
