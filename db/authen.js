@@ -6,7 +6,7 @@ var mysql = require('./mysql');
  *         callback function with 2 parameters, error and authsuccess
  */
 exports.authenicate = function(username,password,callback){
-    mysql.get('username','users','username = "' + username + '" AND password = "' + pass + '"',function(err,result){
+    mysql.get('username','users','username = "' + username + '" AND password = "' + password + '"',function(err,result){
 	callback(err,result.length != 0);
     });  
 };
@@ -18,7 +18,10 @@ exports.authenicate = function(username,password,callback){
  */
 exports.exists = function(field,data,callback){
     mysql.get(field,'users',field + ' = ' + data, function(err,result){
-	callback(err,result.length != 0);
+	if(err)
+	    console.log(err);
+	else
+	    callback(err,result.length != 0);
     });
 }
 
@@ -30,6 +33,6 @@ exports.exists = function(field,data,callback){
  *         callback function with 2 parameters, error and result
  */
 exports.register = function(username,password,email,name,callback){
-    mysql.insert('username,password,email,name','users','"' + username + '","' + password + '","' + email + '","' + name + '")',callback);
+    mysql.insert('username,password,email,name','users','"' + username + '","' + password + '","' + email + '","' + name + '"',callback);
 }
 

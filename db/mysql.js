@@ -49,6 +49,8 @@ exports.update = function(field,table,conditions,newdata,callback){
 exports.insert = function(fields,table,newdata,callback){
     var query = 'INSERT INTO ' + table + ' (' + fields + ') VALUES (' + newdata + ')'; 
     mysqlconnection.query(query,function(err,rows,fields){
+	console.log(err);
+	console.log(rows);
 	if(err)
 	    callback(err,null);
 	else
