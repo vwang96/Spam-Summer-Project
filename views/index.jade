@@ -1,8 +1,7 @@
-html
-  head
-    title Hey
-  body
-    h1 Hello, World!
-    p #{greeting} #{user}
-    a(href='/login') Login 
-    a(href='/logout') Logout
+extends ./layout.jade
+
+block content
+  div(class="col-sm-12")
+    div.img-rounded.main.map
+      input#pac-input.controls(type="text" placeholder="Search Box")
+      div#map-canvas
