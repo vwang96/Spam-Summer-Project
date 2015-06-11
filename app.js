@@ -1,5 +1,5 @@
-var login = require('./authen');
-var profile = require('./profile');
+var login = require('./db/authen');
+var profile = require('./db/profile');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
