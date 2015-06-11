@@ -175,12 +175,14 @@ function nameSpace(){
     }
 
     function loadSteps(steps){
-	var tb = document.getElementById("directions");
+	var old = document.getElementById("directions").tBodies[0];
+	var tb = document.createElement("tbody");
 	for(var i = 0;i<steps.length;i++){
 	    var r = tb.insertRow(tb.rows.length); //adds to end
 	    var c1 = r.insertCell(0);
 	    c1.innerHTML = steps[i].instructions;
 	}
+	old.parentNode.replaceChild(tb,old);
     }
     
     eButton.addEventListener("click",calcETA);
