@@ -19,12 +19,10 @@ app.route('/')
     .get(function(req,res){
 	sess = req.session;
 
-	if(sess.user){
-	    profile.getInfo(sess.user,function(err,result){console.log(result);});
-	    res.render('index',{greeting: 'You are logged in as ', user: sess.user});
-	}
+	if(sess.user)
+	    res.render('index',{user: sess.user});
 	else
-	    res.render('index',{greeting: 'Welcome guest!'});
+	    res.render('index');
 	
     });
 
@@ -37,8 +35,7 @@ app.route('/login')
 		sess = req.session;
 		sess.user = req.query.user;
 		res.send('');
-	    }
-	    else{
+	    } else {
 		//Send error message to page
 		res.send("Invalid user/pass combo");
 	    }
@@ -52,33 +49,39 @@ app.route('/register')
 	//Check if the username is taken
 	var user = req.query.user;
 	var pass = req.query.pass;
+	var confirm = req.query.confirm;
 	var email = req.query.email;
 	var name = req.query.name;
-	login.exists('username','"' + user +'"',function(err,userExists){
-	    if(userExists){
-		//Send error message to page
-		res.send("User already exists");
-	    }
-	    else{
-		login.exists('email','"' + email +'"',function(err,emailExists){
-		    if(emailExists){
-			res.send('Email already exists');
-		    } 
-		    else{
-			//If the user does not exist, add them to the database,
-			//log them in, and redirect to homepage
-			login.register(user,pass,email,name,function(err,added){
-			    sess = req.session;
-			    sess.user = user;
-			    res.send('');
-			});
-		    }
-		});
-	    }
-	});
-    })
 	
-
+	if( pass === confirm ) {
+	    login.exists('username','"' + user +'"',function(err,userExists){
+		if(userExists){
+		    //Send error message to page
+		    res.send("User already exists");
+		}
+		else{
+		    login.exists('email','"' + email +'"',function(err,emailExists){
+			if(emailExists){
+			    res.send('Email already exists');
+			} 
+			else{
+			    //If the user does not exist, add them to the database,
+			    //log them in, and redirect to homepage
+			    login.register(user,pass,email,name,function(err,added){
+				sess = req.session;
+				sess.user = user;
+				res.send('');
+			    });
+			}
+		    });
+		}
+	    });
+	}
+	else {
+	    res.send("Passwords do not match");
+	}
+    });
+	    
 app.route('/logout')
     .get(function(req,res){
 	req.session.destroy(function(err){
@@ -90,11 +93,55 @@ app.route('/logout')
 	    }
 	});
     });
-	    
-	    
+
+app.route('/profile')
+    .get(function(req, res){
+	sess = req.session;
+	if(sess.user)
+	    res.render('profile',{user: sess.user});
+	else
+	    res.render('profile');
+    });
+
+app.route('/events')
+    .get(function(req, res){
+	sess = req.session;
+	if(sess.user)
+	    res.render('events',{user: sess.user});
+	else
+	    res.render('events');
+    });	     
+
 
 var server = app.listen(3000,function(){
     var host = server.address().address;
     var port = server.address().port;
-    console.log("Example app listening at http://%s:%s",host,port);
+    console.log("listening at http://%s:%s",host,port);
 });
+
+function time(n){
+    return n > 9 ? "" + n: "0" + n;
+}
+
+var timestamp = "[" + time(new Date().getHours()) + ":" + time(new Date().getMinutes()) + ":" + time(new Date().getSeconds()) + "] ";
+
+console.logCopy = console.log.bind(console);
+console.log = function() {
+    var args = Array.prototype.slice.call(arguments, 0);
+    args[0] = timestamp + arguments[0];
+    this.logCopy.apply(this, args);
+};
+
+console.logCopy = console.warn.bind(console);
+console.warn = function() {
+    var args = Array.prototype.slice.call(arguments, 0);
+    args[0] = timestamp + arguments[0];
+    this.logCopy.apply(this, args);
+};
+
+console.logCopy = console.error.bind(console);
+console.error = function() {
+    var args = Array.prototype.slice.call(arguments, 0);
+    args[0] = timestamp + arguments[0];
+    this.logCopy.apply(this, args);
+};

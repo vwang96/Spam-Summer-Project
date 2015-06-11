@@ -16,8 +16,16 @@ body {
   margin: -35px 0 0 0;
 }
 
-.navbar-right {
-	width: 72px;
+.container-fluid {
+  padding-right: 0;
+}
+
+.form-group {
+  color: #ffffff;
+}
+
+.btn_r {
+	width: 68px;
 }
 
 .sidebar {

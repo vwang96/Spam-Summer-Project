@@ -1,21 +1,21 @@
-html
+<!DOCTYPE html>
+html(lang="en")
   head
-    block head
-      meta(charset='utf-8')
-      meta(http-equiv='X-UA-Compatible' content='IE=edge')
-      meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
   
-      link(rel='stylesheet', href='css/bootstrap.min.css')
-      link(rel='stylesheet', href='css/default.css')
-      link(rel='stylesheet', href='css/modal.css')
-      link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
+    link(rel='stylesheet', href='css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/default.css')
+    link(rel='stylesheet', href='css/modal.css')
+    link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
 
-      script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places')
-      script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
-      script(src='js/bootstrap.min.js')
-      script(src='js/gcode.js')
-      script(src='js/clock.js')
-      script(src='js/jquery.leanModal.min.js')
+    script(src='https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js')
+    script(src='js/bootstrap.min.js')
+    script(src='js/gcode.js')
+    script(src='js/clock.js')
+    script(src='js/jquery.leanModal.min.js')
   body
     .container
       block navbar
@@ -34,14 +34,15 @@ html
                   a(href="/events") Events
               form.navbar-form.navbar-right
                 if user != null
-                  a#logout.btn-success.btn_l(href="#" onClick="clickedLogout()") Logout
+                  div.form-group You are logged in as #{user} &nbsp
+                  button#logout.btn.btn-success.btn_r(href="#" onClick="clickedLogout()") Logout
                 else   
-                  a#modal_trigger.btn.btn-success(href="#modal") Login
+                  button#modal_trigger.btn.btn-success.btn_r(href="#modal") Login
                   #modal.popupContainer(style="display:none;")
                     header.popupHeader
                       span.header_title Login
                       span.modal_close
-                        i.fa.fa_times
+                        i.fa.fa-times
                     section.popupBody
                       .social_login
                         .user_login
@@ -50,7 +51,7 @@ html
                             label Email/Username
                             input#loginuser(type="text")
                             label Password
-                            input#loginpass(type="password")
+                            input#loginpass(type="password" onkeypress="if (event.keyCode == 13) document.getElementById('login').click()")
                             .checkbox
                               input#remember(type="checkbox")
                               label(for='remember') Remember Me
@@ -67,17 +68,19 @@ html
                           input#registeruser(type="text")
                           label Password
                           input#registerpass(type="password")
+                          label Confirm Password
+                          input#registerconfirm(type="password")
                           label Email Address
-                          input#registeremail(type="email")
+                          input#registeremail(type="email" onkeypress="if (event.keyCode == 13) document.getElementById('register').click()")
                           .action_btns
                             .one_half
                               a.btn_l.back_btn
                                 i.fa.fa-angle-double-left Back
                             .one_half.last
-                              a.btn_l.btn_red(href="#" onClick="clickedRegister()") Register
+                              a#register.btn_l.btn_red(href="#" onClick="clickedRegister()") Register
 
+      block content
 
-    block content
   footer
   script.
     $("#modal_trigger").leanModal({top : 200, overlay : 0.6, closeButton: ".modal_close"});
@@ -114,8 +117,10 @@ html
     var clickedRegister = function(){
       var parameters = { user: $('#registeruser').val(),
                          pass: $('#registerpass').val(),
+                         confirm: $('#registerconfirm').val(),
                          email:$('#registeremail').val(),
                          name: $('#registername').val() };
+      
       $.ajax({url: '/register',
               data: parameters,
               success: function(msg){
