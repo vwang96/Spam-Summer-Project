@@ -6,6 +6,7 @@ function nameSpace(){
     var event_location,event_latlng,dirService,dirDisplay,D_BOUNDS,map;
     var markers = [];
     var eButton = document.getElementById("confirmEvent");
+    var updateInterval;
     
     function initialize() {
 	map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -147,6 +148,8 @@ function nameSpace(){
     }
     
     function calcETA(){
+	console.log("calculating ETA");
+	dirDisplay.setMap(null);
 	dirDisplay.setMap(map);
 	var lat,lng;
 	if(navigator.geolocation){
@@ -185,7 +188,23 @@ function nameSpace(){
 	old.parentNode.replaceChild(tb,old);
     }
     
+    function update(){
+	var freq = document.getElementById("frequency").value;
+	if(updateInterval)
+	    clearInterval(updateInterval);
+	if(freq != "manual"){
+	    document.getElementById("manualUpdate").style.visibility="hidden";
+	    updateInterval= setInterval(calcETA,parseInt(freq)*1000);
+	}
+	else{
+	    document.getElementById("manualUpdate").style.visibility="visible";
+	    calcETA();
+	}
+    }
+    
     eButton.addEventListener("click",calcETA);
+    document.getElementById("frequency").addEventListener("change",update);
+    document.getElementById("manualUpdate").addEventListener("click",update);
     initialize();
 }		      
 

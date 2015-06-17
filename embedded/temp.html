@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Places search box</title>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
-    <script type="text/javascript" src="gcode.js"></script>
+    <script type="text/javascript" src="temp.js"></script>
     <!--  <style>
       #target {
         width: 345px;
@@ -27,9 +27,17 @@
   </div>
   <div style="float:left;width:50%;">
 	  Event Location: 
+	  <select id="frequency"">
+		  <option value="manual">Manual</option>
+		  <option value="5">5 seconds</option>
+		  <option value="10">10 seconds</option>
+		  <option value="60">1 minute</option>
+	  </select>
+	  <input type="button" id="manualUpdate" value="Update Location" >
 	  <input type="button" id="confirmEvent" value="Confirm Event Location"> <p id="ETA" ></p>
 	  <p id="eventLoc"></p>
-  
+  </div>
+  <div>
 	  <table id="allLocs">
 		  <tr><td>History of Places Selected</td></tr>
 	  </table>
