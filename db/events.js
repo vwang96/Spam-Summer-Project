@@ -1,5 +1,9 @@
 var mysql = require('./mysql');
 
+exports.getInfo = function(eventid,callback){
+    mysql.get('*','events','id = ' + eventid,callback);
+}
+
 exports.createEvent = function(userid,eventDescription,eventTime,callback){
     mysql.insert('description,eventTime,userid','events','"' + eventDescription + '","' + eventTime + '",' + userid,callback);
 }
