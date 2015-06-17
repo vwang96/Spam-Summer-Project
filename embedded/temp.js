@@ -1,35 +1,40 @@
-// This example adds a search box to a map, using the Google Place Autocomplete
-// feature. People can enter geographical searches. The search box will return a
-// pick list containing a mix of places and predicted search terms.
-
+//name space so that users can't access fxn & var in browser console
+// can be removed without much changes
 function nameSpace(){
     var event_location,event_latlng,dirService,dirDisplay,D_BOUNDS,map;
-    var markers = [];
-    var eButton = document.getElementById("confirmEvent");
-    var updateInterval;
+    var markers = []; //array of all current markers on the map
+    var eButton = document.getElementById("confirmEvent");//confirm event btn
+    var freq = document.getElementById("frequency");//freq update selection
+    var mUpd = document.getElementById("manualUpdate");//manual update loc btn
+    var updateInterval;//keeps track of loc update interval obj
+    //html text to show current event location
+    var eLocation = document.getElementById("eventLoc");
+    //google obj to get address|latlng given one 
+    var gCoder = new google.maps.Geocoder();
+
     
     function initialize() {
 	map = new google.maps.Map(document.getElementById('map-canvas'),
 			{mapTypeId:google.maps.MapTypeId.ROADMAP});
-	dirService = new google.maps.DirectionsService();
-	dirDisplay = new google.maps.DirectionsRenderer({
-	    suppressMarkers:true});
-	if(navigator.geolocation){
+	dirService = new google.maps.DirectionsService();//used to find route
+	dirDisplay = new google.maps.DirectionsRenderer({//displays route found
+	    suppressMarkers:true});//won't auto add markers to route
+	if(navigator.geolocation){//if browsewr supports HTML geolocation
 	    navigator.geolocation.getCurrentPosition(function(position){
 		var lat = position.coords.latitude;
 		var lng = position.coords.longitude;
-		map.setCenter({'lat':lat,'lng':lng});
+		map.setCenter({'lat':lat,'lng':lng});//centers user location
 		map.setZoom(17);
+		//all user searches will be biased toward this initial map bound		
+		D_BOUNDS = map.getBounds(); 
+		
+	    },function(){//if user denied access
+		map.setCenter({'lat':0,'lng':0});
+		map.setZoom(1);
 		D_BOUNDS = map.getBounds();
 	    });
 	}
-	else{
-	    var defaultBounds = new google.maps.LatLngBounds(
-		new google.maps.LatLng(-33.8902, 151.1759),
-		new google.maps.LatLng(-33.8474, 151.2631));
-	    map.fitBounds(defaultBounds);
-	    D_BOUNDS = map.getBounds();
-	}
+
 	
 	// Create the search box and link it to the UI element.
 	var input = /** @type {HTMLInputElement} */(                           
@@ -43,18 +48,18 @@ function nameSpace(){
 	// pick list. Retrieve the matching places for that item.
 	google.maps.event.addListener(searchBox, 'places_changed', function() {
 	    var places = searchBox.getPlaces();
-	    dirDisplay.setMap(null);
+	    dirDisplay.setMap(null); //removes any route currently being displayed
 	    if (places.length == 0) {
-		return;
+		return; //if no results, nothing happens, return
 	    }
 	    for (var i = 0, marker; marker = markers[i]; i++) 
-		marker.setMap(null);   
+		marker.setMap(null); //takes all current markers off the map
 	    
 	    // For each place, get the icon, place name, and location.
-	    markers = [];
-	    var bounds = new google.maps.LatLngBounds();
+	    markers = []; //removes them all from the array
+	    var bounds = new google.maps.LatLngBounds(); //bounds obj
 	    for (var i = 0, place; place = places[i]; i++) {
-		var image = {
+		var image = { //setting marker icon detail for each marker
 		    url: place.icon,
 		    size: new google.maps.Size(71, 71),
 		    origin: new google.maps.Point(0, 0),
@@ -64,18 +69,20 @@ function nameSpace(){
 		
 		// Create a marker for each place.
 		var marker = new google.maps.Marker({
-		    map: map,
-		    icon: image,
-		    title: place.name,
+		    map: map, //map to bound to
+		    icon: image, 
+		    title: place.name, //the place name, not addr
 		    position: place.geometry.location
 		});
 		assignClickEvent(marker,map);
-		markers.push(marker);
-		
+		markers.push(marker);//add marker to array of markers
+		//google offers no other way to access them
+
+		//tells bound obj to expand to include the current marker
 		bounds.extend(place.geometry.location);
 	    }
 	    
-	    
+	    //bounds obj will now include all markers returned by places
 	    map.fitBounds(bounds);
 	});
 	// [END region_getplaces]
@@ -83,31 +90,36 @@ function nameSpace(){
 	//Bias the SearchBox results towards places that are within the bounds of the
 	// current map's viewport.
 	google.maps.event.addListener(map, 'bounds_changed', function() {
-	    //var bounds = map.getBounds();
+	    //D_BOUNDS = map.getBounds();
+	    //un comment the above to bias search to current bound
 	    searchBox.setBounds(D_BOUNDS); //always centered original position
 	});
 	
     }
     
+    //when a marker is clicked, it's choosen as the event location and added
+    //to the list of 'history of selected places'
     function assignClickEvent(marker,map){
-	var gCoder = new google.maps.Geocoder();
 	google.maps.event.addListener(marker, 'click', function() {
-	    var eLocation = document.getElementById("eventLoc");
+	    //google latlng obj to track location
 	    var latlng = new google.maps.LatLng(marker.getPosition().A,
 						marker.getPosition().F);
-	    dirDisplay.setMap(null);
-	    map.setZoom(16);
-	    map.setCenter(marker.getPosition());
+	    dirDisplay.setMap(null);//clears any route displayed
+	    map.setZoom(16);//sets zoom
+	    map.setCenter(marker.getPosition());//centers on marker clicked
 	    gCoder.geocode({'latLng': latlng}, function(results, status) {
+		//getting the address of the latlng location
 		if (status == google.maps.GeocoderStatus.OK) {
 		    eLocation.innerHTML = marker.title + " @ "+ 
 			results[0].formatted_address;
 		    event_location = eLocation.innerHTML;
 		    event_latlng = latlng;
+		    //creates the history list and attaches click event
 		    createEventObj(results[0].formatted_address,
 				   marker.title,map);	
 		}
 	    });
+	    //clears all OTHER markers from the array & map
 	    for(var z = 0;z< markers.length;z++)
 		if(markers[z] !== marker){
 		    markers[z].setMap(null);
@@ -116,27 +128,33 @@ function nameSpace(){
 	});
     }
     
+    //creates the history list and assigns click events to each
     function createEventObj(addr,name,map){
+	//gets the table, creates new row,col,cell,set innerHTML
 	var tb = document.getElementById("allLocs");
 	var r = tb.insertRow(tb.rows.length); //adds to end
 	var c1 = r.insertCell(0);
 	c1.innerHTML = name+" "+addr;
+	//add click event that centers on prev selected locations
 	r.addEventListener("click",function(){
-	    var gCoder = new google.maps.Geocoder();
-	    dirDisplay.setMap(null);
+	    dirDisplay.setMap(null);//clears any routes
 	    gCoder.geocode({"address":addr},function(results,status){
 		if(status == google.maps.GeocoderStatus.OK){
-		    var eLocation = document.getElementById("eventLoc");
+		    //changes what is displayed in html text
 		    eLocation.innerHTML = name + " @ "+addr;
 		    event_location = eLocation.innerHTML;
 		    event_latlng = results[0].geometry.location;
+		    //centers map on location
 		    map.setCenter(results[0].geometry.location);
+		    //creates marker for it
 		    var marker = new google.maps.Marker({
 			map: map,
 			title:name,
 			position: results[0].geometry.location
 		    });
+		    //tracks the marker
 		    markers.push(marker);
+		    //deletes every OTHER marker
 		    for(var m =0,thisM;thisM=markers[m];m++)
 			if(thisM != marker){
 			    thisM.setMap(null);
@@ -147,9 +165,10 @@ function nameSpace(){
 	});
     }
     
+    
     function calcETA(){
-	console.log("calculating ETA");
 	dirDisplay.setMap(null);
+	//tells route to be displayed on the map
 	dirDisplay.setMap(map);
 	var lat,lng;
 	if(navigator.geolocation){
@@ -161,15 +180,18 @@ function nameSpace(){
 		    destination: event_latlng,
 		    travelMode: google.maps.TravelMode.DRIVING
 		};
+		//calls ggl API to calc route w/ the request data
 		dirService.route(request, function(response, status) {
 		    if (status == google.maps.DirectionsStatus.OK) {
 			var ETA = document.getElementById("ETA");
+			//tells it to display first route/direction returned
 			dirDisplay.setDirections(response);
 			ETA.innerHTML = "ETA: "+response.routes[0].legs[0].duration.text;
+			//lists out the directions for the first route
 			loadSteps(response.routes[0].legs[0].steps);
 		    }
-	    else
-		console.log(status);
+		    else
+			console.log(status);
 		});
 	
 		
@@ -178,34 +200,43 @@ function nameSpace(){
     }
 
     function loadSteps(steps){
+	//getting old table body
 	var old = document.getElementById("directions").tBodies[0];
+	//creating new table body
 	var tb = document.createElement("tbody");
+	//enumerating directions and rows
 	for(var i = 0;i<steps.length;i++){
 	    var r = tb.insertRow(tb.rows.length); //adds to end
 	    var c1 = r.insertCell(0);
 	    c1.innerHTML = steps[i].instructions;
 	}
+	//replacing old one w/ new one
 	old.parentNode.replaceChild(tb,old);
     }
     
+    
     function update(){
-	var freq = document.getElementById("frequency").value;
-	if(updateInterval)
-	    clearInterval(updateInterval);
-	if(freq != "manual"){
-	    document.getElementById("manualUpdate").style.visibility="hidden";
+	if(updateInterval)//if interval is not NULL
+	    clearInterval(updateInterval);//clear it
+	//if freq of update changed to not manual
+	if(freq.value != "manual"){
+	    mUpd.style.visibility="hidden";//hide button
+	    //set to update every X seconds,X being from menu selection
 	    updateInterval= setInterval(calcETA,parseInt(freq)*1000);
 	}
-	else{
-	    document.getElementById("manualUpdate").style.visibility="visible";
-	    calcETA();
+	else{//if freq of update changed to manual
+	    mUpd.style.visibility="visible";//unhide button
+	    calcETA();//update it once
 	}
     }
     
+    
     eButton.addEventListener("click",calcETA);
-    document.getElementById("frequency").addEventListener("change",update);
-    document.getElementById("manualUpdate").addEventListener("click",update);
+    freq.addEventListener("change",update);
+    mUpd.addEventListener("click",update);
     initialize();
 }		      
 
+
+//waits until page is completely loaded
 google.maps.event.addDomListener(window, 'load',nameSpace);
