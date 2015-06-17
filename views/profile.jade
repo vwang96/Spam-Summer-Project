@@ -1,0 +1,25 @@
+extends ./layout.jade
+
+block content
+  div.col-sm-3
+    div.img-rounded.sidebar
+      div.clockbox
+    div.img-rounded.sidebar
+      | "The next events for user."
+  div.col-sm-6.img-rounded.main.event
+    span(style="float:left;") Name
+    span(style="float:right;") Date Registered
+    br
+    br
+    span(style="float:left;") Groups:
+    br
+    br
+    span(style="float:left;") Events Attended
+    span(style="float:right;color:#ff3232;" title="Never Attended") &nbsp 0
+    span(style="float:right;color:#ffff4c;" title="Late") &nbsp 0
+    span(style="float:right;color:#49e20e;" title="On-Time") 0
+  div.col-sm-3
+    div.img-rounded.rightbar
+      | "Group Name"
+      br
+      | "Number of Members"

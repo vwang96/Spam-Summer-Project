@@ -1,0 +1,21 @@
+extends ./layout.jade
+
+block content
+  div.col-sm-3
+    div.img-rounded.sidebar
+      div#clockbox
+    div.img-rounded.sidebar
+      | "Time to destination according to google maps."
+  div.col-sm-6
+    div.img-rounded.main.map
+      input#pac-input.controls(type="text" placeholder="Search Box")
+      div#map-canvas
+  div.col-sm-3
+    div.img-rounded.rightbar
+      | "Event Feed" 
+      br 
+      br 
+      br 
+      br
+      br
+      br
