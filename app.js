@@ -1,4 +1,5 @@
 var login = require('./authen');
+var gapi = require ('./gapi');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -24,30 +25,20 @@ app.get('/',function(req,res){
 	
 });
 
-//StoreToken
-/*
-app.route('/storeToken')
-    .get(function(req,res){
-	token=req.form['token']
-	url="https://www.googleapis.com/plus/v1/people/me"
-	data=urllib.urlencode({'access_token':token,
-                               'fields':'emails,name'})
-	req = urllib2.Request(url+"?"+data)
-	response = urllib2.urlopen(req)
-	result = response.read()
-	r= json.loads(result)
-	print r
-	//MAKE SURE TO ADD TO LOGGED IN DATABASE ON SERVER (session)
-	return json.dumps(r)
-    })
-    .post(function(req,res){
-	sess=req.session;
-	req = url
-	response = urllib2.urlopen(req)
-	result = response.read()
-	r=json.loads(result);
-	json.dumps(r);
-*/
+app.get('/oauth2callback', function(req, res) {
+    sess = req.session;
+    var code = req.query.code;
+    console.log(code);
+    gapi.authen(code, function(){
+	gapi.getProfile(function(profile){
+	    var email = profile.emails[0].value; 
+	    sess.user = email;
+	    res.redirect('/');
+	}); 
+    });
+});
+
+
 
 //Login page
 app.route('/login')
@@ -56,7 +47,7 @@ app.route('/login')
 	if(sess.user)
 	    res.redirect('/');
 	else
-	    res.render('login');
+	    res.render('login',{url: gapi.url});
     })
     .post(function(req,res){
 	sess = req.session;
@@ -74,22 +65,6 @@ app.route('/login')
 	    }
 	})
     });
-
-
-//OAuth Login
-app.route('/oauth')
-    .get(function(req,res) {
-	sess = req.session;
-	if (sess.user)
-	    res.redirect('/');
-	else
-	    res.render('oauth');
-    })
-    .post(function(req,res,callback){
-	sess = req.session;
-	//authenticate the user
-	login.authenticate(req.body.user
-
 
 
 //Register page
