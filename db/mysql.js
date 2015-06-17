@@ -15,12 +15,7 @@ mysqlconnection.connect();
  */
 exports.get = function(fields,table,conditions,callback){
     var query = 'SELECT ' + fields + ' FROM ' + table + ' WHERE ' + conditions;
-    mysqlconnection.query(query,function(err,rows,fields){
-	if(err)
-	    callback(err,null);
-	else
-	    callback(null,rows);
-    });
+    runQuery(query,callback);
 }
 
 /* Update data in database
@@ -32,12 +27,7 @@ exports.get = function(fields,table,conditions,callback){
  */
 exports.update = function(field,table,conditions,newdata,callback){
     var query = 'UPDATE ' + table + ' SET ' + field + ' = ' + newdata + ' WHERE ' + conditions;
-    mysqlconnection.query(query,function(err,rows,fields){
-	if(err)
-	    callback(err,null);
-	else
-	    callback(null,rows);
-    });
+    runQuery(query,callback);
 }
 
 /* Inserts data into database
@@ -48,12 +38,7 @@ exports.update = function(field,table,conditions,newdata,callback){
  */
 exports.insert = function(fields,table,newdata,callback){
     var query = 'INSERT INTO ' + table + ' (' + fields + ') VALUES (' + newdata + ')'; 
-    mysqlconnection.query(query,function(err,rows,fields){
-	if(err)
-	    callback(err,null);
-	else
-	    callback(null,rows);
-    });
+    runQuery(query,callback);
 }
 
 /* Removes data from database
@@ -63,10 +48,14 @@ exports.insert = function(fields,table,newdata,callback){
  */
 exports.remove = function(table,conditions,callback){
     var query = 'DELETE FROM ' + table + '  WHERE ' + conditions;
-    mysqlconnection.query(query,function(err,rows,fields){
+    runQuery(query,callback);
+}
+
+var runQuery = function(query,callback){
+    mysqlconnection.query(query,function(err,results,fields){
 	if(err)
 	    callback(err,null);
 	else
-	    callback(null,rows);
+	    callback(null,results);
     });
-}
+};
