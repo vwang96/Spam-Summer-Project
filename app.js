@@ -21,7 +21,8 @@ app.route('/')
     .get(function(req,res){
 	sess = req.session;
 	groups.findUsers(sess.user,function(err,results){
-	    console.log(results);
+	    for(var i = 0;i < results.length;i++)
+		console.log(JSON.stringify(results[i]));
 	});
 
 	if(sess.user)
