@@ -1,7 +1,7 @@
 var mysql = require('./mysql');
 
 exports.findUsers = function(name,callback){
-    mysql.get('username','users','username LIKE "' + name + '%"',callback);
+    mysql.get('username,id','users','username LIKE "' + name + '%"',callback);
 }
 
 exports.createGroup = function(userid,groupName,callback){
