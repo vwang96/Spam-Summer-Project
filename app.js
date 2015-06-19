@@ -20,9 +20,8 @@ var sess;
 app.route('/')
     .get(function(req,res){
 	sess = req.session;
-	groups.findUsers(sess.user,function(err,results){
-	    for(var i = 0;i < results.length;i++)
-		console.log(JSON.stringify(results[i]));
+	events.getInfo(1,function(err,results){
+	    console.log(JSON.stringify(results));
 	});
 
 	if(sess.user)
@@ -117,7 +116,6 @@ app.route('/events')
 	else
 	    res.render('events');
     });	     
-
 
 var server = app.listen(3000,function(){
     var host = server.address().address;
