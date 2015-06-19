@@ -139,6 +139,14 @@ a.btn_l_red {
 	color:#ED6347; 
 	text-align:right;
 }
+/*added by henry, remove this comment when style is fixed jia*/
+.gplus {
+    display:block;
+    text-align:center
+    margin-bottom: 5px;
+}
+
+
 
 /* User Register Form */
 .user_register {
