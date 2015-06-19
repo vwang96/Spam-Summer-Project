@@ -5,19 +5,18 @@ Links used for Geo
 
 [Git branch/push/pull tutorials](https://www.atlassian.com/git/tutorials/using-branches/git-checkout)
 
-[Embedded Google Map](https://developers.google.com/maps/documentation/embed/start)  
+[Embedded Google Map Example](https://developers.google.com/maps/documentation/embed/start)  
 
-[Responsive Embedded GMAP](http://www.labnol.org/internet/embed-responsive-google-maps/28333/) //who the hell uses IE!?!   
-[Responsive JS GMAP](http://codepen.io/hubpork/pen/xriIz)
 ##JS GMap  
  * [basic set up & tutorial](https://developers.google.com/maps/documentation/javascript/tutorial)
  * [JS map with search bar](https://developers.google.com/maps/documentation/javascript/examples/places-searchbox)
  * [Autocomplete](https://developers.google.com/maps/documentation/javascript/places-autocomplete)
- * [Map latlng variable](https://developers.google.com/maps/documentation/javascript/examples/map-latlng-literal)
  * [Geocoding](https://developers.google.com/maps/documentation/javascript/geocoding#GeocodingResults)
  * [Click events](https://developers.google.com/maps/documentation/javascript/examples/event-simple)
  * [Markers](https://developers.google.com/maps/documentation/javascript/markers)
  * [Zoom to include all markers](http://stackoverflow.com/questions/19304574/center-set-zoom-of-map-to-cover-all-markers-visible-markers)
  * [GMAP directions](https://developers.google.com/maps/documentation/javascript/directions#Directions)
- * [Maniupulating Directions service](http://googlemaps.googlermania.com/google_maps_api_v3/en/map_example_direction_customicon.html)
+ * [Manipulating Directions service](http://googlemaps.googlermania.com/google_maps_api_v3/en/map_example_direction_customicon.html)
  * [Directions service reference](https://developers.google.com/maps/documentation/javascript/3.exp/reference#DirectionsRenderer)
+ * [Gmap marker icon example](https://developers.google.com/maps/documentation/javascript/examples/icon-complex)
+ * [Accuaracy circle and location update example](https://code.google.com/p/google-maps-utility-library-v3/source/browse/trunk/geolocationmarker/src/geolocationmarker.js?r=379)
