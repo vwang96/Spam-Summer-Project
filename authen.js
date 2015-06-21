@@ -36,7 +36,6 @@ exports.existsuser = function(user,email,callback){
 //Add the user/pass combination to the database
 exports.adduser = function(user,pass,email,name,callback){
     var query = 'INSERT INTO users (username,password,email,name) VALUES ("'+user+'","'+pass+'","' + email + '","' + name + '")';
-    
     mysqlconnection.query(query,function(err,rows,fields){
 	callback();
     });

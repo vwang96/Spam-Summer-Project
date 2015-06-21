@@ -31,15 +31,17 @@ app.route('/login')
 	sess = req.session;
 
 	if(sess.user)
-	    res.render('index',{user: sess.user});
+	    res.render('index',{google_login_url:gapi.url, user: sess.user});
 	else
-	    res.render('login',{url: gapi.url});
-    })
-    .post(function(req,res){
-	sess = req.session;
-	//Authenicate the user
-	login.authenicate(req.body.user,req.body.pass,function(auth){
-	    //If the user is found, add them to the session and redirect to homepage
+	    res.render('index',{google_login_url:gapi.url});
+	
+    });
+
+//Login
+app.route('/login')
+    .get(function(req,res){
+	//Check for user/pass combo in user table
+	login.authenicate(req.query.user,req.query.pass,function(auth){
 	    if(auth){
 		sess = req.session;
 		sess.user = req.query.user;
@@ -48,6 +50,19 @@ app.route('/login')
 		//Send error message to page
 		res.send("Invalid user/pass combo");
 	    }
+	});
+    });
+app.route('/oauth2callback')
+    .get( function(req, res) {
+	sess = req.session;
+	var code = req.query.code;
+	console.log(code);
+	gapi.authen(code, function(){
+	    gapi.getProfile(function(profile){
+		var email = profile.emails[0].value; 
+		sess.user = email;
+		res.redirect('/');
+	    }); 
 	});
     });
 
@@ -99,6 +114,7 @@ app.route('/register')
 		res.send("Passwords do not match");
 	}
 
+    });
 
 app.route('/logout')
     .get(function(req,res){
@@ -116,18 +132,20 @@ app.route('/profile')
     .get(function(req, res){
 	sess = req.session;
 	if(sess.user)
-	    res.render('profile',{user: sess.user});
+	    res.render('profile',{google_login_url:gapi.url, user: sess.user});
 	else
-	    res.render('profile');
+	    res.render('profile',{google_login_url:gapi.url});
+	
     });
 
 app.route('/events')
     .get(function(req, res){
 	sess = req.session;
 	if(sess.user)
-	    res.render('events',{user: sess.user});
+	    res.render('events',{google_login_url:gapi.url, user: sess.user});
 	else
-	    res.render('events');
+	    res.render('events',{google_login_url:gapi.url});
+	
     });	     
 
 var server = app.listen(3000,function(){
@@ -162,4 +180,3 @@ console.error = function() {
     args[0] = timestamp + arguments[0];
     this.logCopy.apply(this, args);
 };
-
