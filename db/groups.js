@@ -15,3 +15,8 @@ exports.addUserToGroup = function(userid,groupid,callback){
 exports.removeUserFromGroup = function(userid,groupid,callback){
     mysql.remove('user_groups','userid = ' + userid + ' AND groupid = ' + groupid,callback);
 }
+
+//Get info from a group by calling its name.  Can be changed to call by id.
+exports.getInfoFromGroup = function(group_name,callback){
+    mysql.get('id,group_name,leader_id','groups','group_name = "' + group_name + '"',callback);
+}
