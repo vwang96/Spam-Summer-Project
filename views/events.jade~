@@ -27,7 +27,7 @@ block content
                   label Location
                   input#eventloc(type="text")
                   label Description
-                  textarea(rows="4" cols="40")#eventloc(type="text")
+                  textarea(rows="4" cols="50")#eventloc(type="text")
               .action_btns
                 .one_half
                   a#login.btn_s(href="#" onClick="createEvent()") Create
