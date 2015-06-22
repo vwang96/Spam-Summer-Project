@@ -35,7 +35,7 @@ exports.createEvent = function(userid,eventDescription,eventTime,callback){
     mysql.insert('description,eventTime,userid','events','"' + eventDescription + '","' + eventTime + '",' + userid,callback);
 }
 
-exports.addUserToEvent = function(userid,eventid,callback){
+var addUserToEvent = function(userid,eventid,callback){
     mysql.insert('','user_events',userid + ',' + eventid,callback);
 }
 
@@ -43,3 +43,20 @@ exports.removeUserFromEvent = function(userid,eventid,callback){
     mysql.remove('user_events','userid = ' + userid + ' AND eventid = ' + eventid,callback);
 }
 
+/* Adds a list of users to the event
+ * Inputs: int eventid,
+ *         list of ints containing userids
+ *         callback function with 2 parameters, error and result
+ */
+var addUsers = function(eventid,userids,callback){
+    if(userids.length == 0)
+	callback();
+    else{
+	//pop the first userid from the list
+	var user = userids.pop();
+	addUserToEvent(user,eventid,function(err,results){
+	    addUsers(eventid,userids,callback);
+	});
+    }
+}
+exports.addUsers = addUsers;

@@ -20,7 +20,7 @@ var sess;
 app.route('/')
     .get(function(req,res){
 	sess = req.session;
-	events.getInfo(1,function(err,results){
+	events.addUsers(1,[1,2,4],function(err,results){
 	    console.log(JSON.stringify(results));
 	});
 
