@@ -103,7 +103,11 @@ app.route('/profile')
     .get(function(req, res){
 	sess = req.session;
 	if(sess.user)
-	    res.render('profile',{user: sess.user});
+	    profile.getInfo(sess.user, function(err, userInfo){
+		console.log(userInfo.username);
+		console.log(JSON.stringify(userInfo));
+		res.render('profile',{user: sess.user, userName: userInfo[0].username, email: userInfo[0].email, name: userInfo[0].name});
+	    });
 	else
 	    res.render('profile');
     });
