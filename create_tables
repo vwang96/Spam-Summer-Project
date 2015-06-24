@@ -10,8 +10,8 @@ CREATE TABLE events (
        id MEDIUMINT NOT NULL AUTO_INCREMENT,
        description VARCHAR(500),
        event_time DATETIME,
-       latitude float,
-       longitude float,
+       latitude FLOAT,
+       longitude FLOAT,
        leader_id MEDIUMINT,
        PRIMARY KEY (id)
 );

@@ -1,4 +1,6 @@
 USE eventping;
+ALTER TABLE events ADD COLUMN latitude FLOAT;
+ALTER TABLE events ADD COLUMN longitude FLOAT;
 ALTER TABLE user_events ADD PRIMARY KEY (user_id,event_id);
 ALTER TABLE user_events ADD FOREIGN KEY user_id (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE user_events ADD FOREIGN KEY event_id (event_id) REFERENCES events (id) ON DELETE CASCADE ON UPDATE CASCADE;
