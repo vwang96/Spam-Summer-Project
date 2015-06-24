@@ -1,2 +1,7 @@
-ALTER user_events ADD PRIMARY KEY (user_id,event_id);
-ALTER user_groups ADD PRIMARY KEY (user_id,group_id);
+USE eventping;
+ALTER TABLE user_events ADD PRIMARY KEY (user_id,event_id);
+ALTER TABLE user_events ADD FOREIGN KEY user_id (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE user_events ADD FOREIGN KEY event_id (event_id) REFERENCES events (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE user_groups ADD PRIMARY KEY (user_id,group_id);
+ALTER TABLE user_groups ADD FOREIGN KEY user_id (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE user_groups ADD FOREIGN KEY group_id (group_id) REFERENCES groups (id) ON DELETE CASCADE ON UPDATE CASCADE;
