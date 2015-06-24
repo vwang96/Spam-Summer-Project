@@ -31,8 +31,8 @@ exports.updateInfo = function(field,newData,eventid,callback){
     mysql.update(field,'events','id = ' + eventid,'"' + newData + '"',callback);
 }
 
-exports.createEvent = function(userid,eventDescription,eventTime,callback){
-    mysql.insert('description,eventTime,userid','events','"' + eventDescription + '","' + eventTime + '",' + userid,callback);
+exports.createEvent = function(userid,eventDescription,eventTime,latitude,longitude,callback){
+    mysql.insert('description,eventTime,latitude,longitude,userid','events','"' + eventDescription + '","' + eventTime + '",' + latitude + ',' + longitude + ',' + userid,callback);
 }
 
 var addUserToEvent = function(userid,eventid,callback){
