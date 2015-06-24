@@ -1,0 +1,2 @@
+ALTER user_events ADD PRIMARY KEY (user_id,event_id);
+ALTER user_groups ADD PRIMARY KEY (user_id,group_id);
