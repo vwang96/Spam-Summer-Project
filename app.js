@@ -2,6 +2,7 @@ var login = require('./db/authen');
 var profile = require('./db/profile');
 var events = require('./db/events');
 var groups = require('./db/groups');
+var gapi = require('./gapi');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
@@ -25,9 +26,9 @@ app.route('/')
 	});
 
 	if(sess.user)
-	    res.render('index',{user: sess.user});
+	    res.render('index',{google_login_url:gapi.url, user: sess.user});
 	else
-	    res.render('index');
+	    res.render('index',{google_login_url:gapi.url});
 	
     });
 
@@ -44,6 +45,19 @@ app.route('/login')
 		//Send error message to page
 		res.send("Invalid user/pass combo");
 	    }
+	});
+    });
+app.route('/oauth2callback')
+    .get( function(req, res) {
+	sess = req.session;
+	var code = req.query.code;
+	console.log(code);
+	gapi.authen(code, function(){
+	    gapi.getProfile(function(profile){
+		var email = profile.emails[0].value; 
+		sess.user = email;
+		res.redirect('/');
+	    }); 
 	});
     });
 
@@ -104,21 +118,22 @@ app.route('/profile')
 	sess = req.session;
 	if(sess.user)
 	    profile.getInfo(sess.user, function(err, userInfo){
-		console.log(userInfo.username);
-		console.log(JSON.stringify(userInfo));
 		res.render('profile',{user: sess.user, userName: userInfo[0].username, email: userInfo[0].email, name: userInfo[0].name});
 	    });
+	//res.render('profile',{google_login_url:gapi.url, user: sess.user});
 	else
-	    res.render('profile');
+	    res.render('profile',{google_login_url:gapi.url});
+	
     });
 
 app.route('/events')
     .get(function(req, res){
 	sess = req.session;
 	if(sess.user)
-	    res.render('events',{user: sess.user});
+	    res.render('events',{google_login_url:gapi.url, user: sess.user});
 	else
-	    res.render('events');
+	    res.render('events',{google_login_url:gapi.url});
+	
     });	     
 
 var server = app.listen(3000,function(){
