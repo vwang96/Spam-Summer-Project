@@ -3,12 +3,14 @@
 function nameSpace(){
     var event_location,event_latlng,dirService,dirDisplay,D_BOUNDS,map;
     var markers = []; //array of all current markers on the map
+    if(document.URL.indexOf("/events") >=0){
     var eButton = document.getElementById("confirmEvent");//confirm event btn
     var freq = document.getElementById("frequency");//freq update selection
     var mUpd = document.getElementById("manualUpdate");//manual update loc btn
     var modeT = document.getElementById("mode");//mode of transport selection
+	}
     var updateInterval;//keeps track of loc update interval obj
-    //html text to show current event location
+	//html text to show current event location
     var eLocation = document.getElementById("eventLoc");
     //google obj to get address|latlng given one 
     var gCoder = new google.maps.Geocoder();
@@ -47,6 +49,7 @@ function nameSpace(){
 	    var places = searchBox.getPlaces();
 	    dirDisplay.setMap(null);//removes any route currently displayed
 	    clearInterval(updateInterval);
+	    loadSteps([],null);
 	    if (places.length == 0) {
 		return; //if no results, nothing happens, return
 	    }
@@ -149,6 +152,7 @@ function nameSpace(){
 	r.addEventListener("click",function(){
 	    clearInterval(updateInterval);
 	    dirDisplay.setMap(null);//clears any routes
+	    loadSteps([],null);//clears directions table
 	    gCoder.geocode({"address":addr},function(results,status){
 		if(status == google.maps.GeocoderStatus.OK){
 		    //changes what is displayed in html text
@@ -199,7 +203,7 @@ function nameSpace(){
 		    title:"You",
 		    position: new google.maps.LatLng(lat,lng),
 		    icon:{
-			url:"image/userIcon.png", //gets user icon
+			url:"images/userIcon.png", //gets user icon
 			scaledSize: new google.maps.Size(50,50),//scales icon
 			origin: new google.maps.Point(0,0),//sets origin?
 			//which part of the icon is attached/pointed to location
@@ -238,7 +242,7 @@ function nameSpace(){
 		    title:"Your Target",
 		    position: event_latlng,
 		    icon:{
-			url:"image/target.png",
+			url:"images/target.png",
 			scaledSize: new google.maps.Size(50,50),
 			origin: new google.maps.Point(0,0),
 			anchor: new google.maps.Point(25,50)
@@ -263,7 +267,8 @@ function nameSpace(){
 			ETA.innerHTML = "ETA: "+
 			    response.routes[0].legs[0].duration.text;
 			//lists out the directions for the first route
-			loadSteps(response.routes[0].legs[0].steps);
+			loadSteps(response.routes[0].legs[0].steps,
+				 response.routes[0].bounds);
 		    }
 		    else
 			window.alert("calcETA: "+status);
@@ -272,22 +277,56 @@ function nameSpace(){
 	}
     }
     
-    function loadSteps(steps){
+    function loadSteps(steps,bounds){
 	//getting old table body
 	var old = document.getElementById("directions").tBodies[0];
 	//creating new table body
 	var tb = document.createElement("tbody");
+
 	//enumerating directions and rows
 	for(var i = 0;i<steps.length;i++){
 	    var r = tb.insertRow(tb.rows.length); //adds to end
 	    var c1 = r.insertCell(0);
 	    c1.innerHTML = steps[i].instructions;
+	    zoomOnStep(c1,steps[i],bounds);
 	}
 	//replacing old one w/ new one
 	old.parentNode.replaceChild(tb,old);
     }
     
-    
+    function zoomOnStep(row,step,origBounds){
+	var loc = step.start_location;
+	var clickedOn = false;
+	row.addEventListener("click",function(){
+	    for(var z = 2;z<markers.length;z++){
+		markers[z].setMap(null);
+		markers.splice(z--,1);
+	    }
+	    if(!clickedOn){
+		var marker = new google.maps.Marker({
+		    map: map,
+		    title: step.instructions.replace(/[<](b|\/b)[>]/g," "),
+		    position: loc
+		});
+		markers.push(marker);
+		map.setZoom(17);
+		map.panTo(loc);
+		clickedOn = true;
+	    }
+	    else{
+		var bounds = new google.maps.LatLngBounds();
+		var NE = new google.maps.LatLng(origBounds.za.A,
+						origBounds.qa.A);
+		var SW = new google.maps.LatLng(origBounds.za.j,
+						origBounds.qa.j);
+		bounds.extend(NE);
+		bounds.extend(SW);
+		map.fitBounds(bounds);
+		clickedOn = false;
+	    }
+	});
+    }
+
     function update(){
 	clearInterval(updateInterval);//clear interval
 	//if freq of update changed to not manual
@@ -303,10 +342,12 @@ function nameSpace(){
 	}
     }
     
+    if(document.URL.indexOf("/event") >=0){
     eButton.addEventListener("click",update);
     modeT.addEventListener("change",update);
     freq.addEventListener("change",update);
     mUpd.addEventListener("click",update);
+    }
     initialize();
 }		      
 
