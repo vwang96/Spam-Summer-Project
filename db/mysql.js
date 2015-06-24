@@ -30,14 +30,14 @@ exports.update = function(field,table,conditions,newdata,callback){
     runQuery(query,callback);
 }
 
-/* Inserts data into database
+/* Inserts data into database. Does not insert duplicate primary keys
  * Inputs: string containing which fields we want
  *         string containing which table to get the info from
  *         string containing the new data
  *         callback function with 2 parameters, error and result
  */
 exports.insert = function(fields,table,newdata,callback){
-    var query = 'INSERT INTO ' + table + ' (' + fields + ') VALUES (' + newdata + ')'; 
+    var query = 'INSERT IGNORE INTO ' + table + ' (' + fields + ') VALUES (' + newdata + ')'; 
     runQuery(query,callback);
 }
 

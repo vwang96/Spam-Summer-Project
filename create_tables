@@ -17,7 +17,8 @@ CREATE TABLE events (
 );
 CREATE TABLE user_events (
        user_id MEDIUMINT,
-       event_id MEDIUMINT
+       event_id MEDIUMINT,
+       PRIMARY KEY (user_id, event_id)
 );
 CREATE TABLE groups (
        id MEDIUMINT NOT NULL AUTO_INCREMENT,
@@ -27,6 +28,6 @@ CREATE TABLE groups (
 );
 CREATE TABLE user_groups (
        user_id MEDIUMINT,
-       group_id MEDIUMINT
+       group_id MEDIUMINT,
+       PRIMARY KEY (user_id, event_id)
 );
-       
