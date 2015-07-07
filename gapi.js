@@ -22,7 +22,6 @@ var url = oauth2Client.generateAuthUrl({
 
 function authen(code,callback){ 
     oauth2Client.getToken(code, function(err, tokens){
-	console.log(tokens);
 	oauth2Client.setCredentials(tokens);
 	callback();
 });
@@ -37,8 +36,6 @@ function getProfile(callback) {
       console.log('An error occured', err);
       return;
     }
-     
-      console.log(profile);
       callback(profile);
   });
 }
