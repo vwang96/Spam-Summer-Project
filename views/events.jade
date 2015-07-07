@@ -5,17 +5,54 @@ block content
     div.img-rounded.sidebar
       div#clockbox
     div.img-rounded.sidebar
-      | "Time to destination according to google maps."
+      | Travel Info 
+      br
+      | Event Location
+      p#eventLoc
+      | Estimated Travel Time
+      p#ETA
+    div.img-rounded.sidebar
+      | Directions
+      table#directions
+        tbody         
   div.col-sm-6
     div.img-rounded.main.map
       input#pac-input.controls(type="text" placeholder="Search Box")
       div#map-canvas
+      button#confirmEvent.btn_l_red
+        | Confirm Event Location
+      select#mode.btn_l_red
+        option(value="DRIVING")
+          | Driving
+        option(value="WALKING")
+          | Walking
+        option(value="BICYCLING")
+          | Bicycling
+        option(value="TRANSIT")
+          | Public Transit
+      select#frequency.btn_l_red
+        option(value="manual")
+          | Manual
+        option(value="5")
+          | 5 seconds
+        option(value="10")
+          | 10 seconds
+        option(value="60")
+          | 1 minute
+      button#manualUpdate.btn_l_red
+        | Update Location
   div.col-sm-3
     div.img-rounded.rightbar
-      | "Event Feed" 
+      | Event Feed 
       br 
       br 
       br 
       br
       br
       br
+    div.img-rounded.rightbar
+      |Past Event Locations
+      table#allLocs
+        tr
+          td
+            

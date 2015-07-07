@@ -21,9 +21,9 @@ var sess;
 app.route('/')
     .get(function(req,res){
 	sess = req.session;
-	events.addUsers(1,[1,2,4],function(err,results){
-	    console.log(JSON.stringify(results));
-	});
+	//events.addUsers(1,[1,2,4],function(err,results){
+	//    console.log(JSON.stringify(results));
+	//});
 
 	if(sess.user)
 	    res.render('index',{google_login_url:gapi.url, user: sess.user});
@@ -117,10 +117,10 @@ app.route('/profile')
     .get(function(req, res){
 	sess = req.session;
 	if(sess.user)
-	    profile.getInfo(sess.user, function(err, userInfo){
-		res.render('profile',{user: sess.user, userName: userInfo[0].username, email: userInfo[0].email, name: userInfo[0].name});
-	    });
-	//res.render('profile',{google_login_url:gapi.url, user: sess.user});
+	    //profile.getInfo(sess.user, function(err, userInfo){
+	    //res.render('profile',{user: sess.user, userName: userInfo[0].username, email: userInfo[0].email, name: userInfo[0].name});
+	    //});
+	    res.render('profile',{google_login_url:gapi.url, user: sess.user});
 	else
 	    res.render('profile',{google_login_url:gapi.url});
 	
