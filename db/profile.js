@@ -5,7 +5,7 @@ var mysql = require('./mysql');
  *         callback function with 2 parameters, err and result
  */
 exports.getInfo = function(userid,callback){
-    mysql.get('email,name','users','id = ' + userid,callback);
+    mysql.get('email,firstName,lastName','users','id = ' + userid,callback);
 }
 
 /* Updates user info in database

@@ -1,7 +1,7 @@
 var mysql = require('./mysql');
 
 exports.findUsers = function(name,callback){
-    mysql.get('name,id','users','name LIKE "' + name + '%"',callback);
+    mysql.get('firstName,lastName,id','users','CONCAT(firstName,' ',lastName) LIKE "' + name + '%"',callback);
 }
 
 exports.createGroup = function(userid,groupName,callback){
@@ -34,7 +34,7 @@ exports.getInfoFromGroup = function(id,callback){
 
 //Returns the user infos of all the users in a group
 var getGroupsUsers = function(id,callback){
-    mysql.get('user_groups.user_id,users.email,users.name',
+    mysql.get('user_groups.user_id,users.email,users.firstName,users.lastName',
 	      'user_groups LEFT JOIN users ON user_groups.user_id = users.id',
 	      'group_id = ' + id,
 	      function(err,results){

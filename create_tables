@@ -2,7 +2,8 @@ USE eventping;
 CREATE TABLE users (id MEDIUMINT NOT NULL AUTO_INCREMENT,
        password VARCHAR(20) NOT NULL,
        email VARCHAR(30) NOT NULL,
-       name VARCHAR(30) NOT NULL,
+       firstName VARCHAR(20) NOT NULL,
+       lastName VARCHAR(20) NOT NULL
        PRIMARY KEY (id)
 );
 CREATE TABLE events (

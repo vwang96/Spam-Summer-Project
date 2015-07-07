@@ -3,7 +3,7 @@ var profile = require('./profile');
 
 //Returns the user infos of all the users going to the event
 var getUsers = function(eventid,callback){
-    mysql.get('user_events.user_id,users.email,users.name',
+    mysql.get('user_events.user_id,users.email,users.firstName,users.lastName',
 	      'user_events LEFT JOIN users ON user_events.user_id = users.id',
 	      'event_id = ' + eventid,
 	      function(err,results){
