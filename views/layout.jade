@@ -116,11 +116,11 @@ html(lang="en")
 
     }
     var clickedRegister = function(){
-      var parameters = { user: $('#registeruser').val(),
-                         pass: $('#registerpass').val(),
+      var parameters = { pass: $('#registerpass').val(),
                          confirm: $('#registerconfirm').val(),
                          email:$('#registeremail').val(),
-                         name: $('#registername').val() };
+                         firstname: $('#registerfirstname').val(),
+                         lastname: $('#registerlastname').val() };
       
       $.ajax({url: '/register',
               data: parameters,

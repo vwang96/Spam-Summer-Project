@@ -7,7 +7,7 @@ var mysql = require('./mysql');
  *   Receives the results of get.
  */
 exports.findUsers = function(name,callback){
-    mysql.get('firstName,lastName,id','users','CONCAT(firstName,' ',lastName) LIKE "' + name + '%"',callback);
+    mysql.get('firstName,lastName,id','users','CONCAT(firstName," ",lastName) LIKE "' + name + '%"',callback);
 }
 
 /* Creates a group

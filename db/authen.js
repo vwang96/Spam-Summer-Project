@@ -32,7 +32,7 @@ exports.exists = function(field,data,callback){
  *         string containing name
  *         callback function with 2 parameters, error and result
  */
-exports.register = function(email,password,firstname,lastname,callback){
+exports.register = function(email,password,firstName,lastName,callback){
     mysql.insert('email,password,firstName,lastName','users','"' + email + '","' + password + '","' + firstName + '","' + lastName + '"',callback);
 }
 
