@@ -102,7 +102,7 @@ html(lang="en")
       });
     })
     var clickedLogin = function(){
-      var parameters = { user: $('#loginuser').val(),
+      var parameters = { email: $('#loginuser').val(),
                          pass: $('#loginpass').val() };
       $.ajax({url: '/login',
               data: parameters,

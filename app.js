@@ -25,8 +25,8 @@ app.route('/')
 	//    console.log(JSON.stringify(results));
 	//});
 
-	if(sess.user)
-	    res.render('index',{google_login_url:gapi.url, user: sess.user});
+	if(sess.email)
+	    res.render('index',{google_login_url:gapi.url, user: sess.email});
 	else
 	    res.render('index',{google_login_url:gapi.url});
 	
@@ -36,10 +36,11 @@ app.route('/')
 app.route('/login')
     .get(function(req,res){
 	//Check for user/pass combo in user table
-	login.authenicate(req.query.user,req.query.pass,function(err,auth){
+	login.authenicate(req.query.email,req.query.pass,function(err,auth){
 	    if(auth){
 		sess = req.session;
-		sess.user = req.query.user;
+		sess.email = req.query.email;
+		sess.logintype = 0;
 		res.send('');
 	    } else {
 		//Send error message to page
@@ -55,7 +56,8 @@ app.route('/oauth2callback')
 	gapi.authen(code, function(){
 	    gapi.getProfile(function(profile){
 		var email = profile.emails[0].value; 
-		sess.user = email;
+		sess.email = email;
+		sess.logintype = 1;
 		res.redirect('/');
 	    }); 
 	});
@@ -66,7 +68,6 @@ app.route('/oauth2callback')
 app.route('/register')
     .get(function(req,res){
 	//Check if the username is taken
-	//var user = req.query.user;
 	var pass = req.query.pass;
 	var confirm = req.query.confirm;
 	var email = req.query.email;
@@ -83,7 +84,8 @@ app.route('/register')
 		    //log them in, and redirect to homepage
 		    login.register(email,pass,firstname,lastname,function(err,added){
 			sess = req.session;
-			sess.user = email;
+			sess.email = email;
+			sess.logintype = 0;
 			res.send('');
 		    });
 		}
@@ -109,11 +111,24 @@ app.route('/logout')
 app.route('/profile')
     .get(function(req, res){
 	sess = req.session;
-	if(sess.user)
-	    //profile.getInfo(sess.user, function(err, userInfo){
-	    //res.render('profile',{user: sess.user, userName: userInfo[0].username, email: userInfo[0].email, name: userInfo[0].name});
-	    //});
-	    res.render('profile',{google_login_url:gapi.url, user: sess.user});
+	if(sess.email){
+	    if(sess.logintype == 0){ //Non oauth login
+		profile.getInfo(sess.email, function(err, userInfo){
+		    res.render('profile',{user: sess.email,
+					  email: sess.email,
+					  name: userInfo[0].firstName + ' ' + userInfo[0].lastName
+					 });
+		});
+	    }
+	    else{
+		gapi.getProfile(function(profile){
+		    res.render('profile',{user: sess.email,
+					  email: sess.email,
+					  name: profile.displayName
+					 });
+		});   
+	    }
+	}
 	else
 	    res.render('profile',{google_login_url:gapi.url});
 	
@@ -122,8 +137,8 @@ app.route('/profile')
 app.route('/events')
     .get(function(req, res){
 	sess = req.session;
-	if(sess.user)
-	    res.render('events',{google_login_url:gapi.url, user: sess.user});
+	if(sess.email)
+	    res.render('events',{google_login_url:gapi.url, user: sess.email});
 	else
 	    res.render('events',{google_login_url:gapi.url});
 	
