@@ -10,12 +10,15 @@ CREATE TABLE events (
        id MEDIUMINT NOT NULL AUTO_INCREMENT,
        description VARCHAR(500),
        event_time DATETIME,
+       latitude FLOAT,
+       longitude FLOAT,
        leader_id MEDIUMINT,
        PRIMARY KEY (id)
 );
 CREATE TABLE user_events (
        user_id MEDIUMINT,
-       event_id MEDIUMINT
+       event_id MEDIUMINT,
+       PRIMARY KEY (user_id, event_id)
 );
 CREATE TABLE groups (
        id MEDIUMINT NOT NULL AUTO_INCREMENT,
@@ -25,6 +28,6 @@ CREATE TABLE groups (
 );
 CREATE TABLE user_groups (
        user_id MEDIUMINT,
-       group_id MEDIUMINT
+       group_id MEDIUMINT,
+       PRIMARY KEY (user_id, event_id)
 );
-       
