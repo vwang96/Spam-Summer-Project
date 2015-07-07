@@ -1,7 +1,7 @@
 var mysql = require('./mysql');
 
 exports.findUsers = function(name,callback){
-    mysql.get('username,id','users','username LIKE "' + name + '%"',callback);
+    mysql.get('name,id','users','name LIKE "' + name + '%"',callback);
 }
 
 exports.createGroup = function(userid,groupName,callback){
@@ -20,7 +20,7 @@ exports.removeUserFromGroup = function(userid,groupid,callback){
  * Inputs: int id, which is the group's id
  *         callback function with 2 parameters, error and result
  * Returns {id,group_name,leader_id,{list of users and info in the order user_id,
- *          username,email,name}}
+ *          email,name}}
  */
 exports.getInfoFromGroup = function(id,callback){
     mysql.get('*','groups','id = "' + id + '"',function(err,results){
@@ -34,10 +34,10 @@ exports.getInfoFromGroup = function(id,callback){
 
 //Returns the user infos of all the users in a group
 var getGroupsUsers = function(id,callback){
-    mysql.get('user_groups.user_id,users.username,users.email,users.name',
+    mysql.get('user_groups.user_id,users.email,users.name',
 	      'user_groups LEFT JOIN users ON user_groups.user_id = users.id',
 	      'group_id = ' + id,
 	      function(err,results){
-            callback(err,results);
+		  callback(err,results);
 	      });
 }
